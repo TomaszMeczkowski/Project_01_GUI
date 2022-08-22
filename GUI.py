@@ -37,6 +37,8 @@ class App:
         self.buttons_data_base(menu_third_page, menu_first_page, menu_adding_person)
         self.buttons_menu_adding_person(menu_adding_person, menu_third_page)
 
+        self.menu_adding_person(menu_adding_person)
+
         menu_first_page.tkraise()
 
         self.main_window.mainloop()
@@ -94,35 +96,23 @@ class App:
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
 
+    def menu_adding_person(self, master_window):
+        label_1 = tk.Label(master_window, text="Imie:")
+        label_1.place(x=200, y=50)
+        self.entry_box_1 = tk.Entry(master_window)
+        self.entry_box_1.place(x=300, y=50)
+        self.label_2 = tk.Label(master_window, text="")
+        self.label_2.place(x=300, y=150)
 
+        button1 = tk.Button(master_window, command=self.wykonaj, text="Wykonaj")
+        button1.place(x=500, y=50)
+
+    def wykonaj(self):
+        text = self.entry_box_1.get()
+        self.label_2.configure(text=f"{text}")
 
 
 
     def frame_changer(self, frame):
         frame.tkraise()
 
-
-
-
-
-
-# main_window = Tk()
-# main_window.title(title_main)
-# main_window.geometry(windows_size)
-# main_window.resizable(width=False, height=False)
-#
-# menu_first_page = Frame(main_window, width=windows_width, height=windows_height, bg=background_color)
-# menu_second_page = Frame(main_window, width=windows_width, height=windows_height, bg=background_color)
-
-
-# menu_list = [menu_first_page, menu_second_page]
-# # menu_list = [menu_first_page]
-
-# for frame in menu_list:
-#     frame.grid(row=0, column=0, sticky='news')
-
-# window_change(menu_first_page)
-# buttons_welcome_page(menu_first_page, menu_second_page)
-# buttons_client_service(menu_second_page)
-
-# main_window.mainloop()
