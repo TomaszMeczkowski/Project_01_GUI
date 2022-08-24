@@ -120,3 +120,14 @@ class DataBase:
         db.commit()
         db.close()
         return True
+
+    def reset_bazy_danych(self):
+        db, cursor_object = self.data_base_connector()
+        zapytanie = f"DROP DATABASE IF EXISTS klub_zt;"
+
+        cursor_object.execute(zapytanie)
+        db.commit()
+        db.close()
+
+        self.inicjowanie_bazy_danych()
+        self.inicjowanie_tabel()
