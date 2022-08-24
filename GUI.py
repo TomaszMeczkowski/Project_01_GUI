@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.ttk import Combobox
 
 
 class App:
@@ -103,25 +104,43 @@ class App:
         self.entry_box_1.place(x=300, y=50)
 
         label_2 = tk.Label(master_window, text="Nazwisko:")
-        label_2.place(x=200, y=100)
+        label_2.place(x=200, y=90)
         self.entry_box_2 = tk.Entry(master_window)
-        self.entry_box_2.place(x=300, y=100)
+        self.entry_box_2.place(x=300, y=90)
 
-        #Wybór pasa
+        pasy = ["Czarny", "Brązowy", "Purpurowy", "Niebieski", "Biały"]
+        label_3 = tk.Label(master_window, text="Pas:")
+        label_3.place(x=200, y=130)
+        self.c1 = Combobox(master_window, values=pasy, state="readonly")
+        self.c1.current(4)
+        self.c1.place(x=300, y=130)
 
-        #Wybór ilości belek
+        belki = ["0", "1", "2", "3", "4"]
+        label_4 = tk.Label(master_window, text="Belki:")
+        label_4.place(x=200, y=170)
+        self.c2 = Combobox(master_window, values=belki, state="readonly")
+        self.c2.current(0)
+        self.c2.place(x=300, y=170)
 
-        self.label_2 = tk.Label(master_window, text="")
-        self.label_2.place(x=300, y=450)
+        self.label_5 = tk.Label(master_window, text="")
+        self.label_5.place(x=150, y=350)
 
         button1 = tk.Button(master_window, command=self.wykonaj, text="Wykonaj")
         button1.place(x=500, y=50)
 
     def wykonaj(self):
-        text = self.entry_box_1.get()
-        text1 = self.entry_box_2.get()
-        self.label_2.configure(text=f"imie: {text}"
-                                    f"\nnazwisko: {text1}")
+        # Przekazywanie parametrów
+        text1 = self.entry_box_1.get()
+        text2 = self.entry_box_2.get()
+        text3 = self.c1.get()
+        text4 = int(self.c2.get())
+        self.label_5.configure(text=f"Przekazane Parametry"
+                                    f"\n"
+                                    f"\nImie: {text1}"
+                                    f"\nNazwisko: {text2}"
+                                    f"\nPas: {text3}"
+                                    f"\nBelki: {text4}",
+                               font=16)
 
 
 
