@@ -163,16 +163,28 @@ class App(PopUps):
     def menu_list_people(self, master_window, opt1):
 
         text = self.show_all_people()
-
         counter = 1
-        tk.Label(master_window, text="", height=25, width=40).place(x=110, y=120)
+        tk.Label(master_window, text="", height=25, width=45).place(x=110, y=120)
         tk.Label(master_window, text="", bg="black").grid(row=0, column=0, pady=50, padx=50)
         for i in text:
-            tk.Label(master_window, text=str(i[0])+".").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
-            tk.Label(master_window, text=i[1]).grid(row=counter, column=11, sticky="W", pady=2, padx=5)
-            tk.Label(master_window, text=i[2]).grid(row=counter, column=12, sticky="W", pady=2, padx=5)
-            tk.Label(master_window, text=i[3]).grid(row=counter, column=13, sticky="W", pady=2, padx=5)
-            tk.Label(master_window, text=i[4]).grid(row=counter, column=14, sticky="W", pady=2, padx=5)
+            if i[0] >= 10:
+                tk.Label(master_window, text=str(i[0])+".  ",
+                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
+            elif i[0] >= 100:
+                tk.Label(master_window, text=str(i[0]) + ".",
+                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
+            else:
+                tk.Label(master_window, text=str(i[0]) + ".    ",
+                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
+
+            tk.Label(master_window, text="  " + str(i[1]) + "  ",
+                     borderwidth=2, relief="solid").grid(row=counter, column=11, sticky="W", pady=2, padx=5)
+            tk.Label(master_window, text="  " + str(i[2]) + "  ",
+                     borderwidth=2, relief="solid").grid(row=counter, column=12, sticky="W", pady=2, padx=5)
+            tk.Label(master_window, text="  " + str(i[3]) + "  ",
+                     borderwidth=2, relief="solid").grid(row=counter, column=13, sticky="W", pady=2, padx=5)
+            tk.Label(master_window, text="  " + str(i[4]) + "  ",
+                     borderwidth=2, relief="solid").grid(row=counter, column=14, sticky="W", pady=2, padx=5)
             counter += 1
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
