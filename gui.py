@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter.ttk import Combobox
-from DB import DataBase
-import Basic_Setup as Settings
-import Gui_Errors
+from database import DataBase
+import basic_setup as settings
+import gui_errors
 
 
 class App(DataBase):
@@ -19,12 +19,12 @@ class App(DataBase):
         self.inicjowanie_tabel()
 
     def basic_setup(self):
-        self.title_main = Settings.title_main
-        self.background_color = Settings.background_color
-        self.windows_size = Settings.windows_size
+        self.title_main = settings.title_main
+        self.background_color = settings.background_color
+        self.windows_size = settings.windows_size
 
-        self.windows_width = Settings.windows_width
-        self.windows_height = Settings.windows_height
+        self.windows_width = settings.windows_width
+        self.windows_height = settings.windows_height
 
     def main_page(self):
         self.main_window = tk.Tk()
@@ -142,7 +142,8 @@ class App(DataBase):
         belki = int(self.c2.get())
 
         # Okno zatwierdzenia operacji
-        decision = tk.Tk()
+        decision = tk.Toplevel()
+        # decision = tk.Tk()
         decision.title(self.title_main)
         decision.geometry("300x250")
         decision.resizable(width=False, height=False)
@@ -161,21 +162,20 @@ class App(DataBase):
         label1 = tk.Label(decision, text="Zatwierdzić", bg="grey", font=16)
         label1.place(x=100, y=150)
 
-        button1 = tk.Button(decision, command=lambda: [self.dodawanie_osob_from_gui(imie, nazwisko, pas, belki),
-                                                       decision.destroy()],
+        button1 = tk.Button(decision,
+                            command=lambda: [decision.destroy(),
+                                             gui_errors.error_app(off=True) if
+                                             self.dodawanie_osob(imie, nazwisko, pas, belki) else
+                                             gui_errors.error_app("Error 1: Taka osoba już się znajduję w bazie danych")
+                                             ],
                             text="Tak", font=16, bg="green")
+
         button1.place(x=95, y=180)
 
         button2 = tk.Button(decision, command=lambda: decision.destroy(), text="Nie", font=16, bg="red")
         button2.place(x=150, y=180)
 
         decision.mainloop()
-
-    def dodawanie_osob_from_gui(self, imie, nazwisko, pas, belki):
-        if self.dodawanie_osob(imie, nazwisko, pas, belki):
-            pass
-        else:
-            Gui_Errors.error_01_person_add()
 
     def frame_changer(self, frame):
         frame.tkraise()

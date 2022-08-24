@@ -1,6 +1,6 @@
-from GUI import App
+from gui import App
 from mysql.connector import errors
-from DB import DataBaseTester
+from database import DataBaseTester
 from termcolor import colored
 
 
