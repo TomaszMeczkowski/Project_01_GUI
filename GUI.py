@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter.ttk import Combobox
 from DB import DataBase
+import Basic_Setup as Settings
+import Gui_Errors
 
 
 class App(DataBase):
@@ -17,12 +19,12 @@ class App(DataBase):
         self.inicjowanie_tabel()
 
     def basic_setup(self):
-        self.title_main = "BJJ_CLUB"
-        self.background_color = "black"
-        self.windows_size = "1200x800"
+        self.title_main = Settings.title_main
+        self.background_color = Settings.background_color
+        self.windows_size = Settings.windows_size
 
-        self.windows_width = int(self.windows_size.split("x")[0])
-        self.windows_height = int(self.windows_size.split("x")[1])
+        self.windows_width = Settings.windows_width
+        self.windows_height = Settings.windows_height
 
     def main_page(self):
         self.main_window = tk.Tk()
@@ -159,7 +161,7 @@ class App(DataBase):
         label1 = tk.Label(decision, text="Zatwierdzić", bg="grey", font=16)
         label1.place(x=100, y=150)
 
-        button1 = tk.Button(decision, command=lambda: [self.dodawanie_osob(imie, nazwisko, pas, belki),
+        button1 = tk.Button(decision, command=lambda: [self.dodawanie_osob_from_gui(imie, nazwisko, pas, belki),
                                                        decision.destroy()],
                             text="Tak", font=16, bg="green")
         button1.place(x=95, y=180)
@@ -168,6 +170,12 @@ class App(DataBase):
         button2.place(x=150, y=180)
 
         decision.mainloop()
+
+    def dodawanie_osob_from_gui(self, imie, nazwisko, pas, belki):
+        if self.dodawanie_osob(imie, nazwisko, pas, belki):
+            pass
+        else:
+            Gui_Errors.error_01_person_add()
 
     def frame_changer(self, frame):
         frame.tkraise()

@@ -98,13 +98,13 @@ class DataBase:
         db.commit()
         db.close()
 
-    def dodawanie_osob(self, imie, naziwsko, pas, belki):
+    def dodawanie_osob(self, imie, nazwisko, pas, belki):
         db, cursor_object = self.data_base_connector()
         zapytanie = "INSERT INTO osoby_trenujace(imie, nazwisko, pas, belki) VALUES(%s,%s,%s,%s)"
-        wartosci = (imie, naziwsko, pas, belki)
+        wartosci = (imie, nazwisko, pas, belki)
         cursor_object.execute(zapytanie, wartosci)
 
-        zapytanie = f"SELECT id FROM osoby_trenujace WHERE imie = '{imie}' AND nazwisko = '{naziwsko}';"
+        zapytanie = f"SELECT id FROM osoby_trenujace WHERE imie = '{imie}' AND nazwisko = '{nazwisko}';"
         cursor_object.execute(zapytanie)
         id_osoby = cursor_object.fetchall()[0][0]
         zapytanie = "INSERT INTO karnety(id, aktywny_karnet, miesiac, typ_karnetu, dostepne_treningi_ogolnie, " \
