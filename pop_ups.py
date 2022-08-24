@@ -2,7 +2,7 @@ import tkinter as tk
 import basic_setup as settings
 
 
-def error_app(mess="", size="450x100", off=False):
+def error_info(mess="", size="450x100", off=False):
     if off:
         return None
 

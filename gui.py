@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter.ttk import Combobox
 from database import DataBase
 import basic_setup as settings
-import gui_errors
+import pop_ups
 
 
 class App(DataBase):
@@ -13,6 +13,7 @@ class App(DataBase):
 
         self.main_window, self.title_main, self.background_color, self.windows_size = None, None, None, None
         self.windows_width, self.windows_height = None, None
+        self.entry_box_1, self.entry_box_2, self.c1, self.c2 = None, None, None, None
 
     def db_setup(self):
         self.inicjowanie_bazy_danych()
@@ -141,9 +142,8 @@ class App(DataBase):
         pas = self.c1.get()
         belki = int(self.c2.get())
 
-        # Okno zatwierdzenia operacji
+        # Okno zatwierdzenia operacji -> Stworzyć osobne okno w pop up
         decision = tk.Toplevel()
-        # decision = tk.Tk()
         decision.title(self.title_main)
         decision.geometry("300x250")
         decision.resizable(width=False, height=False)
@@ -164,9 +164,9 @@ class App(DataBase):
 
         button1 = tk.Button(decision,
                             command=lambda: [decision.destroy(),
-                                             gui_errors.error_app(off=True) if
+                                             pop_ups.error_info(off=True) if
                                              self.dodawanie_osob(imie, nazwisko, pas, belki) else
-                                             gui_errors.error_app("Error 1: Taka osoba już się znajduję w bazie danych")
+                                             pop_ups.error_info("Error 1: Taka osoba już się znajduję w bazie danych")
                                              ],
                             text="Tak", font=16, bg="green")
 
@@ -179,4 +179,3 @@ class App(DataBase):
 
     def frame_changer(self, frame):
         frame.tkraise()
-
