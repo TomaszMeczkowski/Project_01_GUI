@@ -101,15 +101,27 @@ class App:
         label_1.place(x=200, y=50)
         self.entry_box_1 = tk.Entry(master_window)
         self.entry_box_1.place(x=300, y=50)
+
+        label_2 = tk.Label(master_window, text="Nazwisko:")
+        label_2.place(x=200, y=100)
+        self.entry_box_2 = tk.Entry(master_window)
+        self.entry_box_2.place(x=300, y=100)
+
+        #Wybór pasa
+
+        #Wybór ilości belek
+
         self.label_2 = tk.Label(master_window, text="")
-        self.label_2.place(x=300, y=150)
+        self.label_2.place(x=300, y=450)
 
         button1 = tk.Button(master_window, command=self.wykonaj, text="Wykonaj")
         button1.place(x=500, y=50)
 
     def wykonaj(self):
         text = self.entry_box_1.get()
-        self.label_2.configure(text=f"{text}")
+        text1 = self.entry_box_2.get()
+        self.label_2.configure(text=f"imie: {text}"
+                                    f"\nnazwisko: {text1}")
 
 
 
