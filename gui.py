@@ -163,10 +163,17 @@ class App(PopUps):
     def menu_list_people(self, master_window, opt1):
 
         text = self.show_all_people()
-        print(text)
 
-        label1 = tk.Label(master_window, text=text, font=14, justify='left')
-        label1.place(x=50, y=50)
+        counter = 1
+        tk.Label(master_window, text="", height=25, width=40).place(x=110, y=120)
+        tk.Label(master_window, text="", bg="black").grid(row=0, column=0, pady=50, padx=50)
+        for i in text:
+            tk.Label(master_window, text=str(i[0])+".").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
+            tk.Label(master_window, text=i[1]).grid(row=counter, column=11, sticky="W", pady=2, padx=5)
+            tk.Label(master_window, text=i[2]).grid(row=counter, column=12, sticky="W", pady=2, padx=5)
+            tk.Label(master_window, text=i[3]).grid(row=counter, column=13, sticky="W", pady=2, padx=5)
+            tk.Label(master_window, text=i[4]).grid(row=counter, column=14, sticky="W", pady=2, padx=5)
+            counter += 1
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
