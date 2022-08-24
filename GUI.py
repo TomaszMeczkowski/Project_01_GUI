@@ -1,12 +1,20 @@
 import tkinter as tk
 from tkinter.ttk import Combobox
+from DB import DataBase
 
 
-class App:
+class App(DataBase):
 
-    def __init__(self):
+    def __init__(self, user, password):
+        super().__init__(user, password)
+        self.db_setup()
+
         self.main_window, self.title_main, self.background_color, self.windows_size = None, None, None, None
         self.windows_width, self.windows_height = None, None
+
+    def db_setup(self):
+        self.inicjowanie_bazy_danych()
+        self.inicjowanie_tabel()
 
     def basic_setup(self):
         self.title_main = "BJJ_CLUB"
@@ -93,7 +101,6 @@ class App:
         button5.place(x=880, y=500)
 
     def buttons_menu_adding_person(self, master_window, opt1):
-
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
 
@@ -122,27 +129,45 @@ class App:
         self.c2.current(0)
         self.c2.place(x=300, y=170)
 
-        self.label_5 = tk.Label(master_window, text="")
-        self.label_5.place(x=150, y=350)
-
         button1 = tk.Button(master_window, command=self.wykonaj, text="Wykonaj")
         button1.place(x=500, y=50)
 
     def wykonaj(self):
         # Przekazywanie parametrów
-        text1 = self.entry_box_1.get()
-        text2 = self.entry_box_2.get()
-        text3 = self.c1.get()
-        text4 = int(self.c2.get())
-        self.label_5.configure(text=f"Przekazane Parametry"
-                                    f"\n"
-                                    f"\nImie: {text1}"
-                                    f"\nNazwisko: {text2}"
-                                    f"\nPas: {text3}"
-                                    f"\nBelki: {text4}",
-                               font=16)
+        imie = self.entry_box_1.get()
+        nazwisko = self.entry_box_2.get()
+        pas = self.c1.get()
+        belki = int(self.c2.get())
 
+        # Okno zatwierdzenia operacji
+        decision = tk.Tk()
+        decision.title(self.title_main)
+        decision.geometry("300x250")
+        decision.resizable(width=False, height=False)
+        decision.config(bg="grey")
+        decision.tkraise()
 
+        label2 = tk.Label(decision, text=f"Przekazane Parametry"
+                                         f"\n"
+                                         f"\nImie: {imie}"
+                                         f"\nNazwisko: {nazwisko}"
+                                         f"\nPas: {pas}"
+                                         f"\nBelki: {belki}",
+                          font=16)
+        label2.place(x=60, y=20)
+
+        label1 = tk.Label(decision, text="Zatwierdzić", bg="grey", font=16)
+        label1.place(x=100, y=150)
+
+        button1 = tk.Button(decision, command=lambda: [self.dodawanie_osob(imie, nazwisko, pas, belki),
+                                                       decision.destroy()],
+                            text="Tak", font=16, bg="green")
+        button1.place(x=95, y=180)
+
+        button2 = tk.Button(decision, command=lambda: decision.destroy(), text="Nie", font=16, bg="red")
+        button2.place(x=150, y=180)
+
+        decision.mainloop()
 
     def frame_changer(self, frame):
         frame.tkraise()
