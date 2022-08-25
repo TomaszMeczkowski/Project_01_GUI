@@ -1,4 +1,5 @@
 import mysql.connector
+from db_format_functions import month_converter, czas
 
 
 class DataBaseTester:
@@ -149,3 +150,35 @@ class DataBase:
                 lista.append(i)
 
         return lista
+
+    def ticket_sell(self, id_osoby, active, month, typ, amount, plec):
+        db, cursor_object = self.data_base_connector()
+        zapytanie = f"UPDATE klub_zt.karnety SET aktywny_karnet = {active}, miesiac = '{month}', " \
+                    f"typ_karnetu = '{typ}', dostepne_treningi_ogolnie = '{amount}'," \
+                    f" pozostale_treningi_w_miesiacu = '{amount}', plec = '{plec}' WHERE (id = {id_osoby});"
+        cursor_object.execute(zapytanie)
+        db.commit()
+        db.close()
+
+    def dev_tool_osoby(self):
+        osoby = [
+            ["Tomek", "Męczkowski", "Purpurowy", 2],
+            ["Olga", "Zabulewicz", "Purpurowy", 2],
+            ["Alicja", "Kardas", "Niebieski", 3],
+            ["Ola", "Warczak", "Purpurowy", 3],
+            ["Jacek", "Sasin", "Niebieski", 2],
+            ["Tomek", "Kowalski", "Czarny", 2],
+            ["Olga", "Kownacka", "Brązowy", 4],
+            ["Alicja", "Nazaruk", "Purpurowy", 3],
+            ["Ola", "Warcz", "Niebieski", 3],
+            ["Jacek", "Sass", "Biały", 1]
+                ]
+
+        # Jeżeli chcemy wiecej powtórzeń danych trzeba zmienić range(i) na większe i
+        for large_data in range(1):
+            for i in range(0, len(osoby)):
+                self.dodawanie_osob(osoby[i][0], osoby[i][1], osoby[i][2], osoby[i][3])
+
+        # Aktywowanie karnetów dla załadowanych osoób pierwszych osób
+        for i in range(len(osoby) + 1):
+            self.ticket_sell(i, True, f"{month_converter(czas('month'))}", "Open", 999, "M/K")

@@ -39,14 +39,16 @@ class App(PopUps):
         menu_adding_person = self.frame_maker()
         menu_dev_tools = self.frame_maker()
         menu_list_people = self.frame_maker()
+        menu_statistics = self.frame_maker()
 
         menu_list = [menu_first_page, menu_second_page, menu_third_page, menu_adding_person, menu_dev_tools,
-                     menu_list_people]
+                     menu_list_people, menu_statistics]
 
         for frame in menu_list:
             frame.grid(row=0, column=0, sticky='news')
 
-        self.buttons_main_page(menu_first_page, menu_second_page, menu_third_page, opt_dev=menu_dev_tools)
+        self.buttons_main_page(menu_first_page, menu_second_page, menu_third_page, opt_dev=menu_dev_tools,
+                               opt_stat=menu_statistics)
         self.buttons_client_service(menu_second_page, menu_first_page)
         self.buttons_data_base(menu_third_page, menu_first_page, menu_adding_person, menu_list_people)
         self.buttons_menu_adding_person(menu_adding_person, menu_third_page)
@@ -54,6 +56,7 @@ class App(PopUps):
         self.menu_adding_person(menu_adding_person)
         self.menu_dev_tools(menu_dev_tools, menu_first_page)
         self.menu_list_people(menu_list_people, menu_third_page)
+        self.menu_stat(menu_statistics, menu_first_page)
 
         menu_first_page.tkraise()
 
@@ -70,16 +73,16 @@ class App(PopUps):
 
     def exit_button(self):
         self.main_window.quit()
-        # quit()
+        quit()
 
-    def buttons_main_page(self, master_window, opt1, opt2, opt_dev=None):
+    def buttons_main_page(self, master_window, opt1, opt2, opt_dev=None, opt_stat=None):
         button1 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="1. Obsługa klienta")
         button1.place(x=880, y=50)
 
         button2 = tk.Button(master_window, command=lambda: self.frame_changer(opt2), text="2. Baza danych")
         button2.place(x=880, y=100)
 
-        button3 = tk.Button(master_window, command="", text="3. Statystyki")
+        button3 = tk.Button(master_window, command=lambda: self.frame_changer(opt_stat), text="3. Statystyki")
         button3.place(x=880, y=150)
 
         button4 = tk.Button(master_window, command=lambda: self.frame_changer(opt_dev), text="6. Dev Tools")
@@ -155,37 +158,22 @@ class App(PopUps):
     def menu_dev_tools(self, master_window, opt1):
 
         button1 = tk.Button(master_window, command=lambda: self.confirm_db_reset(), text="2. Reset Bazy danych")
-        button1.place(x=880, y=150)
+        button1.place(x=880, y=200)
+
+        button2 = tk.Button(master_window, command=lambda: self.dev_tool_osoby(), text="1. Predefiniowany zestaw osób")
+        button2.place(x=880, y=150)
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
 
     def menu_list_people(self, master_window, opt1):
-
-        text = self.show_all_people()
-        counter = 1
-        tk.Label(master_window, text="", height=25, width=45).place(x=110, y=120)
-        tk.Label(master_window, text="", bg="black").grid(row=0, column=0, pady=50, padx=50)
-        for i in text:
-            if i[0] >= 10:
-                tk.Label(master_window, text=str(i[0])+".  ",
-                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
-            elif i[0] >= 100:
-                tk.Label(master_window, text=str(i[0]) + ".",
-                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
-            else:
-                tk.Label(master_window, text=str(i[0]) + ".    ",
-                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
-
-            tk.Label(master_window, text="  " + str(i[1]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=11, sticky="W", pady=2, padx=5)
-            tk.Label(master_window, text="  " + str(i[2]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=12, sticky="W", pady=2, padx=5)
-            tk.Label(master_window, text="  " + str(i[3]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=13, sticky="W", pady=2, padx=5)
-            tk.Label(master_window, text="  " + str(i[4]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=14, sticky="W", pady=2, padx=5)
-            counter += 1
+        button1 = tk.Button(master_window, command=lambda: self.list_of_people(), text="Lista osób")
+        button1.place(x=880, y=150)
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
+
+    def menu_stat(self, master_window, opt1):
+        button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
+        button5.place(x=880, y=500)
+
