@@ -94,49 +94,53 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
-    def list_of_people(self, mess="", size="600x800", off=False):
+    def list_of_people(self, mess="", size="350x550", off=False):
         if off:
             return None
 
         message_app = tk.Toplevel()
         message_app.title(settings.title_main)
         message_app.geometry(size)
-        message_app.resizable(width=False, height=False)
-        message_app.config(bg="grey")
+        message_app.resizable(width=False, height=True)
+        message_app.config(bg="white")
 
         master_window = message_app
         text = self.show_all_people()
+
+
+        # szukać scrollcommand w dokumentacji
+        # scroll_bar = tk.Scrollbar(message_app, orient="vertical")
+        # scroll_bar.grid(column=5, sticky="ns")
+
+        col_names = ["id", "Imie", "Nazwisko", "Pas", "Belki"]
+        counter = 0
+
+        for i in col_names:
+            a = tk.Label(master_window, text=i, borderwidth=2, relief="solid")
+            a.grid(row=0, column=counter)
+            counter += 1
+
         counter = 1
-        tk.Label(master_window, text="", height=25, width=45).place(x=110, y=120)
-        tk.Label(master_window, text="", bg="grey").grid(row=0, column=0, pady=50, padx=50)
         for i in text:
             if i[0] >= 10:
                 tk.Label(master_window, text=str(i[0])+".  ",
-                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
+                         borderwidth=2, relief="solid").grid(row=counter, column=0, sticky="W", pady=2, padx=5)
             elif i[0] >= 100:
                 tk.Label(master_window, text=str(i[0]) + ".",
-                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
+                         borderwidth=2, relief="solid").grid(row=counter, column=0, sticky="W", pady=2, padx=5)
             else:
                 tk.Label(master_window, text=str(i[0]) + ".    ",
-                         borderwidth=2, relief="solid").grid(row=counter, column=10, sticky="W", pady=2, padx=5)
+                         borderwidth=2, relief="solid").grid(row=counter, column=0, sticky="W", pady=2, padx=5)
 
             tk.Label(master_window, text="  " + str(i[1]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=11, sticky="W", pady=2, padx=5)
+                     borderwidth=2, relief="solid").grid(row=counter, column=1, sticky="W", pady=2, padx=5)
             tk.Label(master_window, text="  " + str(i[2]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=12, sticky="W", pady=2, padx=5)
+                     borderwidth=2, relief="solid").grid(row=counter, column=2, sticky="W", pady=2, padx=5)
             tk.Label(master_window, text="  " + str(i[3]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=13, sticky="W", pady=2, padx=5)
+                     borderwidth=2, relief="solid").grid(row=counter, column=3, sticky="W", pady=2, padx=5)
             tk.Label(master_window, text="  " + str(i[4]) + "  ",
-                     borderwidth=2, relief="solid").grid(row=counter, column=14, sticky="W", pady=2, padx=5)
+                     borderwidth=2, relief="solid").grid(row=counter, column=4, sticky="W", pady=2, padx=5)
             counter += 1
-
-        # label = tk.Label(message_app, text=mess, fg="red", font=('Helvetica', 12, 'bold'))
-        # label.pack(pady=5)
-        #
-        # button = tk.Button(message_app, command=lambda: [message_app.quit(),
-        #                                                  message_app.destroy()
-        #                                                  ], text="Dalej")
-        # button.pack(side="bottom", pady=5)
 
         message_app.tkraise()
         message_app.mainloop()

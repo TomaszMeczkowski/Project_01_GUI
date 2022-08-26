@@ -171,13 +171,35 @@ class DataBase:
             ["Olga", "Kownacka", "Brązowy", 4],
             ["Alicja", "Nazaruk", "Purpurowy", 3],
             ["Ola", "Warcz", "Niebieski", 3],
-            ["Jacek", "Sass", "Biały", 1]
+            ["Jacek", "Sass", "Biały", 1],
+            ["Olga", "Warczak", "Purpurowy", 2],
+            ["Alicja", "Kardass", "Niebieski", 3],
+            ["Ania", "Warczak", "Purpurowy", 3],
+            ["Jacek", "Kowalski", "Niebieski", 2],
+            ["Tomek", "Kowalczyk", "Czarny", 2],
+            ["Olga", "Szklanko", "Brązowy", 4],
+            ["Weronika", "Nazaruk", "Purpurowy", 3],
+            ["Magda", "Warcz", "Niebieski", 3],
+            ["Stanisław", "Sass", "Biały", 1],
+            ["ABCD", "DWA", "Biały", 2],
+            ["ABCE", "DWAA", "Biały", 2],
+            ["ABCF", "DWAB", "Biały", 2],
+            ["ABCG", "DWAC", "Biały", 2],
+            ["ABCH", "DWAD", "Biały", 2],
+            ["ABCJ", "DWAE", "Biały", 2],
+            ["ABCU", "DWAF", "Biały", 2],
+            ["ABCI", "DWAG", "Biały", 2],
+            ["ABCO", "DWAH", "Biały", 2],
+            ["ABCP", "DWAI", "Biały", 2],
+            ["ABCQ", "DWAJ", "Biały", 2],
+            ["ABCW", "DWAK", "Biały", 2],
+            ["ABCS", "DWAL", "Biały", 2],
+            ["ABCR", "DWAO", "Biały", 2],
+
                 ]
 
-        # Jeżeli chcemy wiecej powtórzeń danych trzeba zmienić range(i) na większe i
-        for large_data in range(1):
-            for i in range(0, len(osoby)):
-                self.dodawanie_osob(osoby[i][0], osoby[i][1], osoby[i][2], osoby[i][3])
+        for i in range(0, len(osoby)):
+            self.dodawanie_osob(osoby[i][0], osoby[i][1], osoby[i][2], osoby[i][3])
 
         # Aktywowanie karnetów dla załadowanych osoób pierwszych osób
         for i in range(len(osoby) + 1):
