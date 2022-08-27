@@ -128,16 +128,6 @@ class PopUps(DataBase):
         sb.config(command=text_box.yview)
 
 
-
-        # szukać scrollcommand w dokumentacji
-        # scroll_bar = tk.Scrollbar(message_app, orient="vertical")
-        # scroll_bar.grid(column=5, sticky="ns")
-
-
-
-
-
-
         # Stare podejście
         # col_names = ["id", "Imie", "Nazwisko", "Pas", "Belki"]
         # counter = 0

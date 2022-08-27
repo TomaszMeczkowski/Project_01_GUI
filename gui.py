@@ -92,8 +92,17 @@ class App(PopUps):
         button5.place(x=880, y=500)
 
     def buttons_client_service(self, master_window, opt1):
-        button1 = tk.Button(master_window, command="", text="Here we go")
+        button1 = tk.Button(master_window, command="", text="1. Wydaj kluczyk")
         button1.place(x=880, y=50)
+
+        button2 = tk.Button(master_window, command="", text="2. Sprzedaj karnet")
+        button2.place(x=880, y=100)
+
+        button3 = tk.Button(master_window, command="", text="3. Sprawdź karnet")
+        button3.place(x=880, y=150)
+
+        button4 = tk.Button(master_window, command="", text="4. id finder")
+        button4.place(x=880, y=200)
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
@@ -102,13 +111,13 @@ class App(PopUps):
         button1 = tk.Button(master_window, command=lambda: self.frame_changer(opt2), text="1. Dodaj nową osobę")
         button1.place(x=880, y=50)
 
-        button2 = tk.Button(master_window, command="", text="Popraw dane osoby")
+        button2 = tk.Button(master_window, command="", text="2. Popraw dane osoby")
         button2.place(x=880, y=100)
 
         button3 = tk.Button(master_window, command=lambda: self.frame_changer(opt3), text="3. Lista osoób")
         button3.place(x=880, y=150)
 
-        button4 = tk.Button(master_window, command="", text="Usuń dane osoby")
+        button4 = tk.Button(master_window, command="", text="4. Usuń dane osoby")
         button4.place(x=880, y=200)
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
@@ -157,11 +166,17 @@ class App(PopUps):
 
     def menu_dev_tools(self, master_window, opt1):
 
-        button1 = tk.Button(master_window, command=lambda: self.confirm_db_reset(), text="2. Reset Bazy danych")
-        button1.place(x=880, y=200)
+        button1 = tk.Button(master_window, command=lambda: self.dev_tool_osoby(), text="1. Predefiniowany zestaw osób")
+        button1.place(x=880, y=50)
 
-        button2 = tk.Button(master_window, command=lambda: self.dev_tool_osoby(), text="1. Predefiniowany zestaw osób")
-        button2.place(x=880, y=150)
+        button2 = tk.Button(master_window, command=lambda: self.confirm_db_reset(), text="2. Reset Bazy danych")
+        button2.place(x=880, y=100)
+
+        button3 = tk.Button(master_window, command="", text="3. dane stat. dla osób 1-5")
+        button3.place(x=880, y=150)
+
+        button4 = tk.Button(master_window, command="", text="4. Dane stat. klubu")
+        button4.place(x=880, y=200)
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
@@ -174,6 +189,18 @@ class App(PopUps):
         button5.place(x=880, y=500)
 
     def menu_stat(self, master_window, opt1):
+
+        button1 = tk.Button(master_window, command="", text="1. Aktywność klubu")
+        button1.place(x=880, y=50)
+
+        button2 = tk.Button(master_window, command="", text="2. Aktywność poszczególnych osób")
+        button2.place(x=880, y=100)
+
+        button3 = tk.Button(master_window, command="", text="3. Wykresy aktywności osób")
+        button3.place(x=880, y=150)
+
+        button4 = tk.Button(master_window, command="", text="4. Wykresy aktywnośći klubu")
+        button4.place(x=880, y=200)
+
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
-
