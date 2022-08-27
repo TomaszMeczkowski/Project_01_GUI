@@ -195,6 +195,20 @@ class DataBase:
             ["ABCW", "DWAK", "Biały", 2],
             ["ABCS", "DWAL", "Biały", 2],
             ["ABCR", "DWAO", "Biały", 2],
+            ["ZBCD", "DWA", "Biały", 2],
+            ["ZBCE", "DWAA", "Biały", 2],
+            ["ZBCF", "DWAB", "Biały", 2],
+            ["ZBCG", "DWAC", "Biały", 2],
+            ["ZBCH", "DWAD", "Biały", 2],
+            ["ZBCJ", "DWAE", "Biały", 2],
+            ["ZBCU", "DWAF", "Biały", 2],
+            ["ZBCI", "DWAG", "Biały", 2],
+            ["ZBCO", "DWAH", "Biały", 2],
+            ["ZBCP", "DWAI", "Biały", 2],
+            ["ZBCQ", "DWAJ", "Biały", 2],
+            ["ZBCW", "DWAK", "Biały", 2],
+            ["ZBCS", "DWAL", "Biały", 2],
+            ["ZBCR", "DWAO", "Biały", 2],
 
                 ]
 
