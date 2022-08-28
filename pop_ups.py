@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import basic_setup as settings
 from database import DataBase
 
@@ -101,31 +102,63 @@ class PopUps(DataBase):
         message_app = tk.Toplevel()
         message_app.title(settings.title_main)
         # message_app.geometry(size)
-        message_app.resizable(width=False, height=False)
+        message_app.resizable(width=True, height=True)
         message_app.config(bg="white")
 
         text = self.show_all_people()
 
-        text_box = tk.Text(message_app, font=12, width=50, height=40)
-        text_box.grid(row=0, column=0)
-        text_box.insert("1.0", f"{'id':4s} {'Imie':11s} {'Nazwisko':18s} {'Pas':10s} Belki\n")
+        scrol_bar = tk.Scrollbar(message_app)
+        scrol_bar.pack(side="right", fill="y")
 
-        counter = 2.0
-        for i in text:
-            # text_box.insert(counter, f"{(str(i[0]) + '.'):4s} {i[1]:16s} |  {i[2]:16s}  |  {i[3]:16s}  |  {i[4]}\n")
-            # text_box.insert(counter, f"{(str(i[0]) + '.'):4s} {i[1]:16s}{i[2]:16s}{i[3]:16s}{i[4]}\n")
-            text_box.insert(counter, f"{(str(i[0]) + '.')} {i[1]} {i[2]} {i[3]} {i[4]}\n")
-            counter += 1
-            # Problemy -> formatowanie :4s dodaje 4znaki /s zamiast robić z stringa z lewej minimum 4 znaki
+        tree_view = ttk.Treeview(message_app, yscrollcommand=scrol_bar)
+        tree_view.pack()
+
+        scrol_bar.config(command=tree_view.yview)
+
+        # Kolumny tabeli
+        tree_view['columns'] = ("id", "Imię", "Nazwisko", "Pas", "Belki")
+
+        tree_view.column("#0", width=0, stretch=False)
+        tree_view.column('id', anchor="center")
+        tree_view.column('Imię', anchor="center")
+        tree_view.column('Nazwisko', anchor="center")
+        tree_view.column('Pas', anchor="center")
+        tree_view.column('Belki', anchor="center")
+
+        # Nagłówki kolumn
+        tree_view.heading("#0", text="", anchor='center')
+        tree_view.heading('id', text="id", anchor="center")
+        tree_view.heading('Imię', text="Imię", anchor="center")
+        tree_view.heading('Nazwisko', text="Nazwisko", anchor="center")
+        tree_view.heading('Pas', text="Pas", anchor="center")
+        tree_view.heading('Belki', text="Belki", anchor="center")
+
+        # Wprowadzanie danych
+        tree_view.insert(parent='', index='end', text='', values=('1', 'Tomek', 'Męczkowski', 'Purpurowy', '2'))
+        tree_view.insert(parent='', index='end', text='', values=('2', 'Olga', 'Zabulewicz', 'Purpurowy', '1'))
+        tree_view.insert(parent='', index='end', text='', values=('3', 'Jacek', 'Sasin', 'Niebieski', '2'))
 
 
-        sb = tk.Scrollbar(message_app, orient="vertical")
-        sb.grid(row=0, column=1, sticky="ns")
-
-        text_box.config(yscrollcommand=sb.set, bg="white")
-        text_box.config(state="disabled")
-
-        sb.config(command=text_box.yview)
+        # text_box = tk.Text(message_app, font=12, width=50, height=40)
+        # text_box.grid(row=0, column=0)
+        # text_box.insert("1.0", f"{'id':4s} {'Imie':11s} {'Nazwisko':18s} {'Pas':10s} Belki\n")
+        #
+        # counter = 2.0
+        # for i in text:
+        #     # text_box.insert(counter, f"{(str(i[0]) + '.'):4s} {i[1]:16s} |  {i[2]:16s}  |  {i[3]:16s}  |  {i[4]}\n")
+        #     # text_box.insert(counter, f"{(str(i[0]) + '.'):4s} {i[1]:16s}{i[2]:16s}{i[3]:16s}{i[4]}\n")
+        #     text_box.insert(counter, f"{(str(i[0]) + '.')} {i[1]} {i[2]} {i[3]} {i[4]}\n")
+        #     counter += 1
+        #     # Problemy -> formatowanie :4s dodaje 4znaki /s zamiast robić z stringa z lewej minimum 4 znaki
+        #
+        #
+        # sb = tk.Scrollbar(message_app, orient="vertical")
+        # sb.grid(row=0, column=1, sticky="ns")
+        #
+        # text_box.config(yscrollcommand=sb.set, bg="white")
+        # text_box.config(state="disabled")
+        #
+        # sb.config(command=text_box.yview)
 
 
         # Stare podejście
