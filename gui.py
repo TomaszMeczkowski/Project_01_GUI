@@ -172,17 +172,18 @@ class App(PopUps):
         button2 = tk.Button(master_window, command=lambda: self.confirm_db_reset(), text="2. Reset Bazy danych")
         button2.place(x=880, y=100)
 
-        button3 = tk.Button(master_window, command="", text="3. dane stat. dla osób 1-5")
+        button3 = tk.Button(master_window, command=lambda: self.dev_tool_statistics_01(),
+                            text="3. dane stat. dla osób 1-5")
         button3.place(x=880, y=150)
 
-        button4 = tk.Button(master_window, command="", text="4. Dane stat. klubu")
+        button4 = tk.Button(master_window, command=lambda: self.dev_tool_klub_stat(), text="4. Dane stat. klubu")
         button4.place(x=880, y=200)
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
 
     def menu_list_people(self, master_window, opt1):
-        button1 = tk.Button(master_window, command=lambda: self.list_of_people(), text="Lista osób")
+        button1 = tk.Button(master_window, command=lambda: self.list_of_people(), text="1. Lista osób")
         button1.place(x=880, y=150)
 
         button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")

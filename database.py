@@ -1,6 +1,6 @@
 import mysql.connector
 from db_format_functions import month_converter, czas
-
+import numpy as np
 
 class DataBaseTester:
 
@@ -218,3 +218,66 @@ class DataBase:
         # Aktywowanie karnetów dla załadowanych osoób pierwszych osób
         for i in range(len(osoby) + 1):
             self.ticket_sell(i, True, f"{month_converter(czas('month'))}", "Open", 999, "M/K")
+
+    def dev_tool_statistics_01(self):
+        db, cursor_object = self.data_base_connector()
+
+        counter = 0
+        rok = 2016  # Rok początkowy danych
+
+        for j in range(5):
+
+            zapytanie = f"INSERT INTO dodatkowe_info_osoby(id_osoby, pierwszy_trening) VALUES(%s, %s)"
+            wartosci = (j + 1, "2022-01-01")
+            cursor_object.execute(zapytanie, wartosci)
+
+            for i in range(36):
+                id_osoby = j + 1
+                id_rekordu = i + 1
+                ilosc_wejsc = int(np.random.randint(low=0, high=31, size=1))
+
+                if i == 0:
+                    counter = 0
+
+                counter += 1
+                if counter > 12:
+                    counter = 1
+                    rok += 1
+
+                miesiac = month_converter(counter)
+
+                zapytanie = f"INSERT INTO statystyki_osobowe(id_osoby, id_rekordu, ilosc_wejsc, miesiac, rok) " \
+                            f"VALUES(%s, %s, %s, %s, %s);"
+                wartosci = (id_osoby, id_rekordu, ilosc_wejsc, miesiac, rok)
+                cursor_object.execute(zapytanie, wartosci)
+
+        db.commit()
+        db.close()
+
+    def dev_tool_klub_stat(self):
+
+        db, cursor_object = self.data_base_connector()
+
+        counter = 0
+        rok = 2016  # Rok początkowy danych
+
+        for i in range(12):
+            ilosc_wejsc = int(np.random.randint(low=0, high=31 * 60, size=1))
+
+            if i == 0:
+                counter = 0
+
+            counter += 1
+            if counter > 12:
+                counter = 1
+                rok += 1
+
+            miesiac = month_converter(counter)
+
+            zapytanie = f"INSERT INTO statystyki_klubowe(ilosc_wejsc, miesiac, rok) " \
+                        f"VALUES(%s, %s, %s);"
+            wartosci = (ilosc_wejsc, miesiac, rok)
+            cursor_object.execute(zapytanie, wartosci)
+
+        db.commit()
+        db.close()
