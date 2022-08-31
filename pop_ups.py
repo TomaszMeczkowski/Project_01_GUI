@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import basic_setup as settings
 from database import DataBase
+from tkinter import Menu
 
 
 class PopUps(DataBase):
@@ -95,45 +96,52 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
-    def list_of_people(self, mess="", size="450x550", off=False):
+    def list_of_people(self, mess="", size="480x530", off=False):
         if off:
             return None
 
         message_app = tk.Toplevel()
         message_app.title(settings.title_main)
         message_app.geometry(size)
-        message_app.resizable(width=False, height=True)
+        message_app.resizable(width=False, height=False)
         message_app.config(bg="white")
+        label = tk.Label(text="Lista osoób trenujących")
+        label.grid()
 
         text = self.show_all_people()
-
         scrol_bar = tk.Scrollbar(message_app)
         scrol_bar.pack(side="right", fill="y")
-
         tree_view = ttk.Treeview(message_app, yscrollcommand=scrol_bar.set, height=25)
-        tree_view.pack(side="left", padx=25)
-
+        tree_view.pack(side="left", padx=40, pady=25)
         scrol_bar.config(command=tree_view.yview)
 
         # Kolumny tabeli
         col = ("1", "2", "3", "4", "5")
         col_names = ["id", "Imię", "Nazwisko", "Pas", "Belki"]
-        col_width = [25, 60, 100, 100, 80]
+        col_width = [35, 60, 100, 100, 80]
         tree_view['columns'] = col
 
         tree_view.column("#0", width=0, stretch=False)
-
         for i in range(len(col)):
             tree_view.column(f"{col[i]}", width=col_width[i], anchor="center")
 
         # Nagłówki kolumn
         tree_view.heading("#0", text="", anchor='center')
-
         for i in range(len(col)):
             tree_view.heading(f"{col[i]}", text=f"{col_names[i]}", anchor="center")
-
         for i in text:
             tree_view.insert(parent="", index="end", text="", values=i)
+
+        # Menu Bar
+        menu_bar = Menu(message_app)
+        message_app.config(menu=menu_bar)
+        file_menu = Menu(menu_bar, tearoff=False)
+        # Tkinter z defaultu dodaje pasek na górze który wyłączamy przez tearoff
+
+        file_menu.add_command(label="Wydruk ###Under Construcion###", command="")
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=message_app.destroy)
+        menu_bar.add_cascade(label="Opcje", menu=file_menu)
 
         message_app.tkraise()
         message_app.mainloop()
