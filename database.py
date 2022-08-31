@@ -1,8 +1,12 @@
 import mysql.connector
-from db_format_functions import month_converter, czas
+from db_format_functions import month_converter, czas, date_for_user
 import numpy as np
 from faker import Faker
 from random import choice, randint
+from pathlib import Path
+from os import mkdir, makedirs, path, system
+import pandas as pd
+import xlsxwriter
 
 
 class DataBaseTester:
@@ -253,3 +257,82 @@ class DataBase:
 
         db.commit()
         db.close()
+
+    def print_to_txt(self):
+
+        db, cursor_object = self.data_base_connector()
+        dane = "SELECT * FROM osoby_trenujace;"
+        cursor_object.execute(dane)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        day, month, year = date_for_user()
+        hour, minutes = czas("hour"), czas("min")
+
+        script_path = Path(__file__).parent.resolve()
+        path_dir = path.join(script_path, "Wydruki")
+
+        try:
+            mkdir(path_dir)
+        except FileExistsError:
+            pass
+
+        file = open("Wydruki/Lista_osób_trenujących.txt", "w", encoding="UTF-8")
+        file.write(f"Data wydruku: {day} {month} {year}, "
+                   f"czas: {hour}:{minutes}  \n\n"
+                   f"\nid   imie   nazwisko   pas   belki\n\n")
+
+        for i in wyniki:
+            if i[1] == '':
+                file.write(f"{i[0]}.\n")
+            else:
+                file.write(f"{i[0]}. {i[1]}, {i[2]}, {i[3]}, {i[4]}\n")
+
+        file.close()
+
+        system(rf"{path_dir}/Lista_osób_trenujących.txt")
+
+    def print_to_excel(self):
+        db, cursor_object = self.data_base_connector()
+        dane = "SELECT * FROM osoby_trenujace;"
+        cursor_object.execute(dane)
+        lista_osob = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        script_path = Path(__file__).parent.resolve()
+        path_dir = path.join(script_path, "Wydruki")
+        lista_id, lista_imion, lista_nazwisk, lista_pasow, lista_belek = [], [], [], [], []
+
+        for i in lista_osob:
+            lista_id.append(i[0])
+            lista_imion.append(i[1])
+            lista_nazwisk.append(i[2])
+            lista_pasow.append(i[3])
+            lista_belek.append(i[4])
+
+        try:
+            mkdir(path_dir)
+        except FileExistsError:
+            pass
+
+        df = pd.DataFrame({'id': lista_id,
+                           "Imie": lista_imion,
+                           "Nazwisko": lista_nazwisk,
+                           "Pas": lista_pasow,
+                           "Belki": lista_belek})
+        writer = pd.ExcelWriter('Wydruki/Lista_osób_trenujących.xlsx', engine='xlsxwriter')
+        df.to_excel(writer, sheet_name='Wydruk', index=False)
+
+        worksheet = writer.sheets['Wydruk']
+        format1 = writer.book.add_format({'align': "center"})
+
+        worksheet.set_column(0, 0, 5, format1)
+        worksheet.set_column(1, 1, 10, format1)
+        worksheet.set_column(2, 2, 15, format1)
+        worksheet.set_column(3, 3, 15, format1)
+        worksheet.set_column(4, 4, 8, format1)
+
+        writer.close()
+        system(rf"{path_dir}/Lista_osób_trenujących.xlsx")

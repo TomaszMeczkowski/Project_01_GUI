@@ -138,10 +138,22 @@ class PopUps(DataBase):
         file_menu = Menu(menu_bar, tearoff=False)
         # Tkinter z defaultu dodaje pasek na górze który wyłączamy przez tearoff
 
-        file_menu.add_command(label="Wydruk ###Under Construcion###", command="")
+        print_out_menu = Menu(file_menu, tearoff=False)
+        print_out_menu.add_command(label="Plik tekstowy .txt", command=lambda: self.print_to_txt())
+        print_out_menu.add_command(label="Arkusz kalkulacyjny .xlsx", command=lambda: self.print_to_excel())
+
+        file_menu.add_cascade(label="Wydruk", menu=print_out_menu)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=message_app.destroy)
+
+        help_menu = Menu(menu_bar, tearoff=False)
+        help_menu.add_command(label="#### Under Construction #####")
+        help_menu.add_command(label='Q&A')
+        help_menu.add_command(label='Help.txt')
+        help_menu.add_command(label="#### Under Construction #####")
+
         menu_bar.add_cascade(label="Opcje", menu=file_menu)
+        menu_bar.add_cascade(label="Help", menu=help_menu)
 
         message_app.tkraise()
         message_app.mainloop()
