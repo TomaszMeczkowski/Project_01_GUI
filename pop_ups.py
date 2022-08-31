@@ -110,8 +110,8 @@ class PopUps(DataBase):
         scrol_bar = tk.Scrollbar(message_app)
         scrol_bar.pack(side="right", fill="y")
 
-        tree_view = ttk.Treeview(message_app, yscrollcommand=scrol_bar, height=25)
-        tree_view.pack()
+        tree_view = ttk.Treeview(message_app, yscrollcommand=scrol_bar.set, height=25)
+        tree_view.pack(side="left", padx=25)
 
         scrol_bar.config(command=tree_view.yview)
 
