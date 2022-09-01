@@ -96,9 +96,7 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
-    def list_of_people(self, mess="", size="480x530", off=False):
-        if off:
-            return None
+    def list_of_people(self, size="480x530"):
 
         message_app = tk.Toplevel()
         message_app.title(settings.title_main)
@@ -121,7 +119,7 @@ class PopUps(DataBase):
         col_width = [35, 60, 100, 100, 80]
         tree_view['columns'] = col
 
-        tree_view.column("#0", width=0, stretch=False)
+        tree_view.column("#0", width=0)
         for i in range(len(col)):
             tree_view.column(f"{col[i]}", width=col_width[i], anchor="center")
 

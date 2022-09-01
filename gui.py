@@ -17,8 +17,9 @@ class App(PopUps):
     def db_setup(self):
         self.inicjowanie_bazy_danych()
         self.inicjowanie_tabel()
+        self.auto_ticket_month_check()
 
-    def basic_setup(self):
+    def basic_gui_setup(self):
         self.title_main = settings.title_main
         self.background_color = settings.background_color
         self.windows_size = settings.windows_size
@@ -28,7 +29,7 @@ class App(PopUps):
 
     def main_page(self):
         self.main_window = tk.Tk()
-        self.basic_setup()
+        self.basic_gui_setup()
         self.main_window.title(self.title_main)
         self.main_window.geometry(self.windows_size)
         self.main_window.resizable(width=False, height=False)

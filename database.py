@@ -336,3 +336,43 @@ class DataBase:
 
         writer.close()
         system(rf"{path_dir}/Lista_osób_trenujących.xlsx")
+
+    def auto_ticket_month_check(self):
+        db, cursor_object = self.data_base_connector()
+
+        zapytanie = f"SELECT id FROM karnety WHERE aktywny_karnet = 1;"
+        cursor_object.execute(zapytanie)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        lista_aktywnych_id = []
+        for i in wyniki:
+            lista_aktywnych_id.append(i[0])
+
+        current_month = month_converter(czas("month"))
+
+        db, cursor_object = self.data_base_connector()
+
+        zapytanie = f"SELECT miesiac FROM karnety WHERE aktywny_karnet = 1 LIMIT 1;"
+        cursor_object.execute(zapytanie)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        try:
+            month_data = wyniki[0][0]
+        except IndexError:
+            month_data = None
+
+        if month_data == current_month:
+            pass
+        else:
+            for i in lista_aktywnych_id:
+                db, cursor_object = self.data_base_connector()
+                zapytanie = f"UPDATE klub_zt.karnety SET aktywny_karnet = {False}, miesiac = '{current_month}' " \
+                            f"WHERE (id = {i});"
+
+                cursor_object.execute(zapytanie)
+                db.commit()
+                db.close()
