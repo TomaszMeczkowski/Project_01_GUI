@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter.ttk import Combobox
 import basic_setup as settings
 from pop_ups import PopUps
+import pathlib
+import os
 
 
 class App(PopUps):
@@ -89,8 +91,28 @@ class App(PopUps):
         button4 = tk.Button(master_window, command=lambda: self.frame_changer(opt_dev), text="6. Dev Tools")
         button4.place(x=880, y=450)
 
-        button5 = tk.Button(master_window, command=self.exit_button, text="0. Wyjście")
+        # Custon buttons from img
+        a = pathlib.Path(
+            __file__).parent.resolve()
+        b = os.path.join(a, "Buttons",
+                         "Main_page")
+        icon1 = tk.PhotoImage(file=os.path.join(b + '\\Wyjście_01.png'))
+        icon2 = tk.PhotoImage(file=os.path.join(b + '\\Wyjście_02.png'))
+
+        button5 = tk.Button(master_window, command=self.exit_button, image=icon1, borderwidth=0, highlightthickness=0)
+        button5.image = icon1
         button5.place(x=880, y=500)
+
+        def on_enter(e):
+            button5.config(image=icon2)
+
+        def on_leave(e):
+            button5.config(image=icon1)
+
+        button5.bind('<Enter>', on_enter)
+        button5.bind('<Leave>', on_leave)
+
+
 
     def buttons_client_service(self, master_window, opt1):
         button1 = tk.Button(master_window, command="", text="1. Wydaj kluczyk", state="disabled")

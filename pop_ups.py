@@ -103,14 +103,14 @@ class PopUps(DataBase):
         message_app.geometry(size)
         message_app.resizable(width=False, height=False)
         message_app.config(bg="white")
-        label = tk.Label(text="Lista osoób trenujących")
-        label.grid()
+        label = tk.Label(message_app, text="Lista osoób trenujących", bg="white", font=14)
+        label.pack(side="top", pady=15)
 
         text = self.show_all_people()
         scrol_bar = tk.Scrollbar(message_app)
         scrol_bar.pack(side="right", fill="y")
         tree_view = ttk.Treeview(message_app, yscrollcommand=scrol_bar.set, height=25)
-        tree_view.pack(side="left", padx=40, pady=25)
+        tree_view.pack(side="left", padx=40, pady=15)
         scrol_bar.config(command=tree_view.yview)
 
         # Kolumny tabeli
@@ -124,7 +124,7 @@ class PopUps(DataBase):
             tree_view.column(f"{col[i]}", width=col_width[i], anchor="center")
 
         # Nagłówki kolumn
-        tree_view.heading("#0", text="", anchor='center')
+        tree_view.heading("#0", text="")
         for i in range(len(col)):
             tree_view.heading(f"{col[i]}", text=f"{col_names[i]}", anchor="center")
         for i in text:
