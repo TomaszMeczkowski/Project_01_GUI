@@ -1,3 +1,0 @@
-1. Pomyśleć nad Landing page-m
-2. Przyciski
- Obsługa klienta, Baza Danych, Statystyki, Powrót, Dev Tools, Wyjście

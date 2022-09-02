@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter.ttk import Combobox
+
+import basic_setup
 import basic_setup as settings
 from pop_ups import PopUps
-import pathlib
-import os
+import customtkinter
+# from PIL import Image, ImageTk
 
 
 class App(PopUps):
@@ -79,40 +81,35 @@ class App(PopUps):
         quit()
 
     def buttons_main_page(self, master_window, opt1, opt2, opt_dev=None, opt_stat=None):
-        button1 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="1. Obsługa klienta")
+
+        fg_col = basic_setup.buttons_fg_col
+        hov_col = basic_setup.buttons_hover_col
+        font = basic_setup.buttons_text_font
+
+        button1 = customtkinter.CTkButton(master_window, text="1. Obsługa klienta", width=250, height=40,
+                                          command=lambda: self.frame_changer(opt1), corner_radius=20,
+                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+
+        button2 = customtkinter.CTkButton(master_window, text="2. Baza danych", width=250, height=40,
+                                          command=lambda: self.frame_changer(opt2), corner_radius=20,
+                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+
+        button3 = customtkinter.CTkButton(master_window, text="3. Statystyki", width=250, height=40,
+                                          command=lambda: self.frame_changer(opt_stat), corner_radius=20,
+                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+
+        button4 = customtkinter.CTkButton(master_window, text="6. Dev Tools", width=250, height=40,
+                                          command=lambda: self.frame_changer(opt_dev), corner_radius=20,
+                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+
+        button5 = customtkinter.CTkButton(master_window, text="Wyjście", width=150, height=40, command=self.exit_button,
+                                          corner_radius=20, fg_color="#A81717", hover_color="#DC4848",
+                                          text_font=font)
         button1.place(x=880, y=50)
-
-        button2 = tk.Button(master_window, command=lambda: self.frame_changer(opt2), text="2. Baza danych")
         button2.place(x=880, y=100)
-
-        button3 = tk.Button(master_window, command=lambda: self.frame_changer(opt_stat), text="3. Statystyki")
         button3.place(x=880, y=150)
-
-        button4 = tk.Button(master_window, command=lambda: self.frame_changer(opt_dev), text="6. Dev Tools")
         button4.place(x=880, y=450)
-
-        # Custon buttons from img
-        a = pathlib.Path(
-            __file__).parent.resolve()
-        b = os.path.join(a, "Buttons",
-                         "Main_page")
-        icon1 = tk.PhotoImage(file=os.path.join(b + '\\Wyjście_01.png'))
-        icon2 = tk.PhotoImage(file=os.path.join(b + '\\Wyjście_02.png'))
-
-        button5 = tk.Button(master_window, command=self.exit_button, image=icon1, borderwidth=0, highlightthickness=0)
-        button5.image = icon1
-        button5.place(x=880, y=500)
-
-        def on_enter(e):
-            button5.config(image=icon2)
-
-        def on_leave(e):
-            button5.config(image=icon1)
-
-        button5.bind('<Enter>', on_enter)
-        button5.bind('<Leave>', on_leave)
-
-
+        button5.place(x=930, y=500)
 
     def buttons_client_service(self, master_window, opt1):
         button1 = tk.Button(master_window, command="", text="1. Wydaj kluczyk", state="disabled")
