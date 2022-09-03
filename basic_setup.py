@@ -10,3 +10,4 @@ buttons_hover_col = "#1CFF33"
 buttons_text_font = ("Bold", 14)
 buttons_width = 250
 buttons_height = 40
+buttons_corner_rad = 20
