@@ -3,6 +3,7 @@ from tkinter import ttk
 import basic_setup as settings
 from database import DataBase
 from tkinter import Menu
+import customtkinter
 
 
 class PopUps(DataBase):
@@ -18,34 +19,45 @@ class PopUps(DataBase):
 
         decision = tk.Toplevel()
         decision.title(settings.title_main)
-        decision.geometry("300x250")
+        decision.geometry("300x280")
         decision.resizable(width=False, height=False)
-        decision.config(bg="grey")
+        decision.config(bg="#B0E0E6")
 
-        label2 = tk.Label(decision, text=f"Przekazane Parametry"
-                                         f"\n"
-                                         f"\nImie: {imie}"
-                                         f"\nNazwisko: {nazwisko}"
-                                         f"\nPas: {pas}"
-                                         f"\nBelki: {belki}",
-                          font=16)
-        label2.place(x=60, y=20)
+        label1 = customtkinter.CTkLabel(decision, width=200, height=100, corner_radius=5,
+                                        fg_color="#E0FFFF",
+                                        text_font=("Bold", 14),
+                                        text=f"Przekazane Parametry"
+                                             f"\n"
+                                             f"\nImie: {imie}"
+                                             f"\nNazwisko: {nazwisko}"
+                                             f"\nPas: {pas}"
+                                             f"\nBelki: {belki}")
+        label1.place(x=50, y=20)
 
-        label1 = tk.Label(decision, text="Zatwierdzić", bg="grey", font=16)
-        label1.place(x=100, y=150)
+        label2 = customtkinter.CTkLabel(decision, text="Zatwierdzić", text_font=("Bold", 16), fg_color="#E0FFFF")
+        label2.place(x=85, y=160)
 
-        button1 = tk.Button(decision,
-                            command=lambda: [decision.destroy(),
-                                             self.error_info(off=True) if
-                                             self.dodawanie_osob(imie, nazwisko, pas, belki) else
-                                             self.error_info(mess="Error 1: Taka osoba już się znajduję w bazie danych")
-                                             ],
-                            text="Tak", font=16, bg="green")
+        button1 = customtkinter.CTkButton(decision,
+                                          command=lambda: [decision.destroy(),
+                                                           self.error_info(off=True) if
+                                                           self.dodawanie_osob(imie, nazwisko, pas, belki) else
+                                                           self.error_info(
+                                                           mess="Error 1: Taka osoba już się znajduję w bazie danych")
+                                                           ],
+                                          text="Tak",
+                                          text_font=("Bold", 16),
+                                          width=80,
+                                          height=30,
+                                          corner_radius=5,
+                                          fg_color="green",
+                                          hover_color="green"
+                                          )
+        button1.place(x=65, y=220)
 
-        button1.place(x=95, y=180)
-
-        button2 = tk.Button(decision, command=lambda: decision.destroy(), text="Nie", font=16, bg="red")
-        button2.place(x=150, y=180)
+        button2 = customtkinter.CTkButton(decision, command=lambda: decision.destroy(), text="Nie",
+                                          text_font=("Bold", 16), fg_color="red", width=80, height=30, corner_radius=5,
+                                          hover_color="red")
+        button2.place(x=150, y=220)
 
         decision.tkraise()
         decision.mainloop()

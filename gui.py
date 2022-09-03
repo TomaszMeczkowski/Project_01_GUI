@@ -12,7 +12,7 @@ class App(PopUps):
         PopUps.__init__(self, user, password)
         self.db_setup()
 
-        self.main_window, self.title_main, self.background_color, self.windows_size = None, None, None, None
+        self.main_window, self.title_main, self.foreground_color, self.windows_size = None, None, None, None
         self.windows_width, self.windows_height = None, None
         self.entry_box_1, self.entry_box_2, self.c1, self.c2 = None, None, None, None
         self.fg_col, self.font, self.hov_col = None, None, None
@@ -26,12 +26,12 @@ class App(PopUps):
         self.auto_ticket_month_check()
 
     def basic_gui_setup(self):
-        self.title_main = settings.title_main
-        self.background_color = settings.background_color
-        self.windows_size = settings.windows_size
+        self.title_main = basic_setup.title_main
+        self.foreground_color = basic_setup.foreground_color
+        self.windows_size = basic_setup.windows_size
 
-        self.windows_width = settings.windows_width
-        self.windows_height = settings.windows_height
+        self.windows_width = basic_setup.windows_width
+        self.windows_height = basic_setup.windows_height
 
         self.fg_col = basic_setup.buttons_fg_col
         self.hov_col = basic_setup.buttons_hover_col
@@ -41,11 +41,12 @@ class App(PopUps):
         self.corner_rad = basic_setup.buttons_corner_rad
 
     def main_page(self):
-        self.main_window = tk.Tk()
+        self.main_window = customtkinter.CTk()
         self.basic_gui_setup()
         self.main_window.title(self.title_main)
         self.main_window.geometry(self.windows_size)
         self.main_window.resizable(width=False, height=False)
+        # self.main_window.resizable(width=True, height=True)
 
         menu_first_page = self.frame_maker()
         menu_second_page = self.frame_maker()
@@ -78,8 +79,8 @@ class App(PopUps):
         return True
 
     def frame_maker(self):
-        return tk.Frame(self.main_window, width=self.windows_width,
-                        height=self.windows_height, bg=self.background_color)
+        return customtkinter.CTkFrame(self.main_window, width=self.windows_width, height=self.windows_height,
+                                      fg_color=self.foreground_color)
 
     def frame_changer(self, frame):
         frame.tkraise()
@@ -144,6 +145,12 @@ class App(PopUps):
         button3.place(x=880, y=150)
         button4.place(x=880, y=450)
         button5.place(x=930, y=500)
+
+        # button1.pack(pady=5)
+        # button2.pack(pady=5)
+        # button3.pack(pady=5)
+        # button4.pack(pady=5)
+        # button5.pack(pady=50)
 
     def buttons_client_service(self, master_window, opt1):
         button1 = customtkinter.CTkButton(master_window,
@@ -259,6 +266,7 @@ class App(PopUps):
 
         self.c1 = customtkinter.CTkComboBox(master_window, values=pasy, state="readonly", width=140, height=30,
                                             fg_color="#43D6E1", dropdown_color="#43D6E1", corner_radius=5)
+        self.c1.set(pasy[-1])
         self.c1.place(x=300, y=130)
 
         belki = ["0", "1", "2", "3", "4"]
@@ -268,6 +276,7 @@ class App(PopUps):
 
         self.c2 = customtkinter.CTkComboBox(master_window, values=belki, state="readonly", width=140, height=30,
                                             fg_color="#43D6E1", dropdown_color="#43D6E1", corner_radius=5)
+        self.c2.set(belki[0])
         self.c2.place(x=300, y=170)
 
         button1 = customtkinter.CTkButton(master_window, text="Wykonaj", width=150, height=40,
