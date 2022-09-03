@@ -1,6 +1,6 @@
+import tkinter
 import tkinter as tk
 from tkinter.ttk import Combobox
-
 import basic_setup
 import basic_setup as settings
 from pop_ups import PopUps
@@ -17,6 +17,7 @@ class App(PopUps):
         self.main_window, self.title_main, self.background_color, self.windows_size = None, None, None, None
         self.windows_width, self.windows_height = None, None
         self.entry_box_1, self.entry_box_2, self.c1, self.c2 = None, None, None, None
+        self.fg_col, self.font, self.hov_col = None, None, None
 
     def db_setup(self):
         self.inicjowanie_bazy_danych()
@@ -82,29 +83,29 @@ class App(PopUps):
 
     def buttons_main_page(self, master_window, opt1, opt2, opt_dev=None, opt_stat=None):
 
-        fg_col = basic_setup.buttons_fg_col
-        hov_col = basic_setup.buttons_hover_col
-        font = basic_setup.buttons_text_font
+        self.fg_col = basic_setup.buttons_fg_col
+        self.hov_col = basic_setup.buttons_hover_col
+        self.font = basic_setup.buttons_text_font
 
         button1 = customtkinter.CTkButton(master_window, text="1. Obsługa klienta", width=250, height=40,
                                           command=lambda: self.frame_changer(opt1), corner_radius=20,
-                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+                                          fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font)
 
         button2 = customtkinter.CTkButton(master_window, text="2. Baza danych", width=250, height=40,
                                           command=lambda: self.frame_changer(opt2), corner_radius=20,
-                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+                                          fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font)
 
         button3 = customtkinter.CTkButton(master_window, text="3. Statystyki", width=250, height=40,
                                           command=lambda: self.frame_changer(opt_stat), corner_radius=20,
-                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+                                          fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font)
 
         button4 = customtkinter.CTkButton(master_window, text="6. Dev Tools", width=250, height=40,
                                           command=lambda: self.frame_changer(opt_dev), corner_radius=20,
-                                          fg_color=fg_col, hover_color=hov_col, text_font=font)
+                                          fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font)
 
         button5 = customtkinter.CTkButton(master_window, text="Wyjście", width=150, height=40, command=self.exit_button,
                                           corner_radius=20, fg_color="#A81717", hover_color="#DC4848",
-                                          text_font=font)
+                                          text_font=self.font)
         button1.place(x=880, y=50)
         button2.place(x=880, y=100)
         button3.place(x=880, y=150)
@@ -112,19 +113,30 @@ class App(PopUps):
         button5.place(x=930, y=500)
 
     def buttons_client_service(self, master_window, opt1):
-        button1 = tk.Button(master_window, command="", text="1. Wydaj kluczyk", state="disabled")
+        button1 = customtkinter.CTkButton(master_window, text="1. Wydaj kluczyk", width=250, height=40,
+                                          corner_radius=20, fg_color=self.fg_col, hover_color=self.hov_col,
+                                          text_font=self.font, state=tkinter.DISABLED)
+
+        button2 = customtkinter.CTkButton(master_window, text="2. Sprzedaj karnet", width=250, height=40,
+                                          corner_radius=20, fg_color=self.fg_col, hover_color=self.hov_col,
+                                          text_font=self.font, state=tkinter.DISABLED)
+
+        button3 = customtkinter.CTkButton(master_window, text="3. Sprawdź karnet", width=250, height=40,
+                                          corner_radius=20, fg_color=self.fg_col, hover_color=self.hov_col,
+                                          text_font=self.font, state=tkinter.DISABLED)
+
+        button4 = customtkinter.CTkButton(master_window, text="4. id finder", width=250, height=40,
+                                          corner_radius=20, fg_color=self.fg_col, hover_color=self.hov_col,
+                                          text_font=self.font, state=tkinter.DISABLED)
+
+        button5 = customtkinter.CTkButton(master_window, text="Powrót", width=250, height=40,
+                                          command=lambda: self.frame_changer(opt1), corner_radius=20,
+                                          fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font)
+
         button1.place(x=880, y=50)
-
-        button2 = tk.Button(master_window, command="", text="2. Sprzedaj karnet", state="disabled")
         button2.place(x=880, y=100)
-
-        button3 = tk.Button(master_window, command="", text="3. Sprawdź karnet", state="disabled")
         button3.place(x=880, y=150)
-
-        button4 = tk.Button(master_window, command="", text="4. id finder", state="disabled")
         button4.place(x=880, y=200)
-
-        button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5.place(x=880, y=500)
 
     def buttons_data_base(self, master_window, opt1, opt2, opt3):
