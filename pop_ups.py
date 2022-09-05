@@ -167,3 +167,35 @@ class PopUps(DataBase):
 
         message_app.tkraise()
         message_app.mainloop()
+
+    def id_finder_frame(self):
+
+        decision = tk.Toplevel()
+        decision.title(settings.title_main)
+        decision.geometry("270x150")
+        decision.resizable(width=False, height=False)
+        decision.config(bg="white")
+
+        label = tk.Label(decision, text="Testowy", bg="white")
+        label.pack()
+
+        # Pole do wprowadzania id, przycisk do wykonania -> na dole wyskakuje jego imię i nazwisko
+
+
+
+        # label2 = tk.Label(decision, text=f"\nChcesz zresetować baze danych?"
+        #                                  f"\n(Wszystkie dane zostaną utracone)",
+        #                   font=16)
+        # label2.place(x=12, y=6)
+        #
+        # button1 = tk.Button(decision,
+        #                     command=lambda: [decision.destroy(),
+        #                                      self.reset_bazy_danych()],
+        #                     text="Tak", font=16, bg="green")
+        # button1.place(x=94, y=84)
+        #
+        # button2 = tk.Button(decision, command=lambda: decision.destroy(), text="Nie", font=16, bg="red")
+        # button2.place(x=146, y=84)
+
+        decision.tkraise()
+        decision.mainloop()

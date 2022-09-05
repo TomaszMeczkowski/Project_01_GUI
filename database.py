@@ -376,3 +376,18 @@ class DataBase:
                 cursor_object.execute(zapytanie)
                 db.commit()
                 db.close()
+
+    def id_finder(self, imie, nazwisko):
+        db, cursor_object = self.data_base_connector()
+        zapytanie = f"SELECT id FROM osoby_trenujace WHERE imie = '{imie}' AND nazwisko = '{nazwisko}'"
+        cursor_object.execute(zapytanie)
+        wynik = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        try:
+            id_osoby = wynik[0][0]
+        except IndexError:
+            id_osoby = False
+
+        return id_osoby

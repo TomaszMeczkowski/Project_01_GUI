@@ -1,8 +1,34 @@
-import tkinter
 import tkinter as tk
 import basic_setup
 from pop_ups import PopUps
 import customtkinter as ct
+
+
+class loggingPage:
+
+    def __init__(self):
+        self.title_main = basic_setup.title_main
+        self.main_window = None
+        self.main_frame = None
+
+    def logging_page(self):
+        self.main_window = ct.CTk()
+        self.main_window.title(self.title_main)
+        self.main_window.resizable(width=True, height=True)
+        self.main_frame = ct.CTkFrame(self.main_window, width=400, height=400, fg_color=basic_setup.foreground_color)
+        self.main_frame.grid(row=0, column=0, sticky='news')
+
+        label_info = ct.CTkLabel(self.main_frame, text="Łączenie z bazą MySQL")
+        label_info.pack()
+
+        label_root = ct.CTkLabel(self.main_frame, text="User")
+        label_root.pack()
+
+        label_passowrd = ct.CTkLabel(self.main_frame, text="Password")
+        label_passowrd.pack()
+
+        self.main_frame.tkraise()
+        self.main_window.mainloop()
 
 
 class App(PopUps):
@@ -142,12 +168,6 @@ class App(PopUps):
                                hover_color="#DC4848",
                                text_font=self.font)
 
-        # button1.place(x=880, y=50)
-        # button2.place(x=880, y=100)
-        # button3.place(x=880, y=150)
-        # button4.place(x=880, y=450)
-        # button5.place(x=930, y=500)
-
         button1.pack(pady=5)
         button2.pack(pady=5)
         button3.pack(pady=5)
@@ -163,7 +183,7 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED)
+                               state=tk.DISABLED)
 
         button2 = ct.CTkButton(master_window,
                                text="2. Sprzedaj karnet",
@@ -173,7 +193,7 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED)
+                               state=tk.DISABLED)
 
         button3 = ct.CTkButton(master_window,
                                text="3. Sprawdź karnet",
@@ -183,7 +203,7 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED)
+                               state=tk.DISABLED)
 
         button4 = ct.CTkButton(master_window,
                                text="4. id finder",
@@ -193,7 +213,8 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED)
+                               command=lambda: self.id_finder_frame()
+                               )
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
@@ -204,12 +225,6 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font)
-
-        # button1.place(x=880, y=50)
-        # button2.place(x=880, y=100)
-        # button3.place(x=880, y=150)
-        # button4.place(x=880, y=200)
-        # button5.place(x=880, y=500)
 
         button1.pack(pady=5)
         button2.pack(pady=5)
@@ -224,7 +239,7 @@ class App(PopUps):
 
         button2 = ct.CTkButton(master_window, text="2. Popraw dane osoby", width=250, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
-                               text_font=self.font, state=tkinter.DISABLED)
+                               text_font=self.font, state=tk.DISABLED)
 
         button3 = ct.CTkButton(master_window, text="3. Lista osób", width=250, height=40,
                                command=lambda: self.list_of_people(), corner_radius=self.corner_rad,
@@ -232,17 +247,11 @@ class App(PopUps):
 
         button4 = ct.CTkButton(master_window, text="4. Usuń dane osoby", width=250, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
-                               text_font=self.font, state=tkinter.DISABLED)
+                               text_font=self.font, state=tk.DISABLED)
 
         button5 = ct.CTkButton(master_window, text="Powrót", width=250, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
                                text_font=self.font, command=lambda: self.frame_changer(opt1))
-
-        # button1.place(x=880, y=50)
-        # button2.place(x=880, y=100)
-        # button3.place(x=880, y=150)
-        # button4.place(x=880, y=200)
-        # button5.place(x=880, y=500)
 
         button1.pack(pady=5)
         button2.pack(pady=5)
@@ -342,17 +351,6 @@ class App(PopUps):
                                      command=lambda: self.frame_changer(opt1)
                                      )
 
-        # label_imie.place(x=200, y=50)
-        # self.entry_box_imie.place(x=300, y=50)
-        # label_nazwisko.place(x=200, y=90)
-        # self.entry_box_nazwisko.place(x=300, y=90)
-        # label_nazwisko.place(x=200, y=130)
-        # self.c1.place(x=300, y=130)
-        # label_4.place(x=200, y=170)
-        # self.c2.place(x=300, y=170)
-        # button1.place(x=500, y=50)
-        # button5.place(x=880, y=500)
-
         label_imie.grid(column=0, row=0)
         self.entry_box_imie.grid(column=1, row=0, pady=5)
         label_nazwisko.grid(column=0, row=1)
@@ -429,12 +427,6 @@ class App(PopUps):
                                command=lambda: self.frame_changer(opt1)
                                )
 
-        # button1.place(x=880, y=50)
-        # button2.place(x=880, y=100)
-        # button3.place(x=880, y=150)
-        # button4.place(x=880, y=200)
-        # button5.place(x=880, y=500)
-
         button1.pack(pady=5)
         button2.pack(pady=5)
         button3.pack(pady=5)
@@ -442,7 +434,6 @@ class App(PopUps):
         button5.pack(pady=50)
 
     def menu_stat(self, master_window, opt1):
-        # button1 = tk.Button(master_window, command="", text="1. Aktywność klubu", state="disabled")
         but_add_width = 120
 
         button1 = ct.CTkButton(master_window,
@@ -453,10 +444,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED
+                               state=tk.DISABLED
                                )
 
-        # button2 = tk.Button(master_window, command="", text="2. Aktywność poszczególnych osób", state="disabled")
         button2 = ct.CTkButton(master_window,
                                text="2. Aktywność poszczególnych osób",
                                width=self.width_but + but_add_width,
@@ -465,10 +455,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED
+                               state=tk.DISABLED
                                )
 
-        # button3 = tk.Button(master_window, command="", text="3. Wykresy aktywności osób", state="disabled")
         button3 = ct.CTkButton(master_window,
                                text="3. Wykresy aktywności osób",
                                width=self.width_but + but_add_width,
@@ -477,10 +466,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED
+                               state=tk.DISABLED
                                )
 
-        # button4 = tk.Button(master_window, command="", text="4. Wykresy aktywnośći klubu", state="disabled")
         button4 = ct.CTkButton(master_window,
                                text="4. Wykresy aktywności klubu",
                                width=self.width_but + but_add_width,
@@ -489,10 +477,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tkinter.DISABLED
+                               state=tk.DISABLED
                                )
 
-        # button5 = tk.Button(master_window, command=lambda: self.frame_changer(opt1), text="Powrót")
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
                                width=self.width_but,
