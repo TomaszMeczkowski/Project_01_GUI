@@ -111,7 +111,10 @@ class App(PopUps):
 
         logging_button = ct.CTkButton(self.menu_logging_page, text="Zaloguj się", fg_color="#3BE519", corner_radius=5,
                                       hover_color="#80F069", command=self.click_log_page)
+        # logging_button.bind("<Return>", self.click_log_page)
         # self.menu_logging_page.bind("<Return>", self.click_log_page)
+        # self.menu_logging_page.bind("<Return>", lambda: self.click_log_page)
+        # self.menu_logging_page.bind("<Enter>", self.click_log_page)
 
         self.label_info_bottom = ct.CTkLabel(self.menu_logging_page, text="", text_color="red", text_font=("Bold", 16))
 
