@@ -8,8 +8,8 @@ import customtkinter
 
 class PopUps(DataBase):
 
-    def __init__(self, user, password):
-        DataBase.__init__(self, user, password)
+    def __init__(self):
+        DataBase.__init__(self)
 
     def confirm_adding_people(self, *args):
         imie = args[0]
@@ -180,8 +180,6 @@ class PopUps(DataBase):
         label.pack()
 
         # Pole do wprowadzania id, przycisk do wykonania -> na dole wyskakuje jego imię i nazwisko
-
-
 
         # label2 = tk.Label(decision, text=f"\nChcesz zresetować baze danych?"
         #                                  f"\n(Wszystkie dane zostaną utracone)",

@@ -25,7 +25,11 @@ class DataBaseTester:
 
 class DataBase:
 
-    def __init__(self, user, password):
+    def __init__(self):
+        self.user = None
+        self.password = None
+
+    def loggin_pass(self, user, password):
         self.user = user
         self.password = password
 

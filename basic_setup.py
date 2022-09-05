@@ -1,7 +1,7 @@
 title_main = "BJJ_CLUB"
 # foreground_color = "black"
 foreground_color = "white"
-windows_size = "600x400"
+windows_size = "500x400"
 
 windows_width = int(windows_size.split("x")[0])
 windows_height = int(windows_size.split("x")[1])

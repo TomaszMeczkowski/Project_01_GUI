@@ -2,48 +2,26 @@ import tkinter as tk
 import basic_setup
 from pop_ups import PopUps
 import customtkinter as ct
-
-
-class loggingPage:
-
-    def __init__(self):
-        self.title_main = basic_setup.title_main
-        self.main_window = None
-        self.main_frame = None
-
-    def logging_page(self):
-        self.main_window = ct.CTk()
-        self.main_window.title(self.title_main)
-        self.main_window.resizable(width=True, height=True)
-        self.main_frame = ct.CTkFrame(self.main_window, width=400, height=400, fg_color=basic_setup.foreground_color)
-        self.main_frame.grid(row=0, column=0, sticky='news')
-
-        label_info = ct.CTkLabel(self.main_frame, text="Łączenie z bazą MySQL")
-        label_info.pack()
-
-        label_root = ct.CTkLabel(self.main_frame, text="User")
-        label_root.pack()
-
-        label_passowrd = ct.CTkLabel(self.main_frame, text="Password")
-        label_passowrd.pack()
-
-        self.main_frame.tkraise()
-        self.main_window.mainloop()
+from database import DataBaseTester
+from mysql.connector import errors
 
 
 class App(PopUps):
 
-    def __init__(self, user, password):
-        PopUps.__init__(self, user, password)
-        self.db_setup()
+    def __init__(self):
+        PopUps.__init__(self)
 
         self.main_window, self.title_main, self.foreground_color, self.windows_size = None, None, None, None
         self.windows_width, self.windows_height = None, None
         self.entry_box_imie, self.entry_box_nazwisko, self.cbox_pasy, self.cbox_belki = None, None, None, None
         self.fg_col, self.font, self.hov_col = None, None, None
-        self.width_but = None
-        self.heigh_but = None
-        self.corner_rad = None
+        self.width_but, self.heigh_but, self.corner_rad = None, None, None
+        self.menu_first_page = None
+        self.entry_box_user = None
+        self.entry_box_pass = None
+        self.label_info_bottom = None
+
+        self.menu_logging_page = None
 
     def db_setup(self):
         self.inicjowanie_bazy_danych()
@@ -65,16 +43,17 @@ class App(PopUps):
         self.heigh_but = basic_setup.buttons_height
         self.corner_rad = basic_setup.buttons_corner_rad
 
-    def main_page(self):
+    def main_page(self, custom_enterance=None, user=None, password=None):
         self.main_window = ct.CTk()
         self.basic_gui_setup()
         self.main_window.title(self.title_main)
         self.main_window.geometry(self.windows_size)
-        # self.main_window.resizable(width=False, height=False)
-        self.main_window.resizable(width=True, height=True)
+        self.main_window.resizable(width=False, height=False)
+        # self.main_window.resizable(width=True, height=True)
 
-        menu_first_page = self.frame_maker()
-        # menu_first_page = self.frame_maker(width=400, height=600, custom=True)
+        # self.menu_logging_page = ct.CTkFrame(self.main_window, fg_color=basic_setup.foreground_color)
+        self.menu_logging_page = self.frame_maker()
+        self.menu_first_page = self.frame_maker()
         menu_second_page = self.frame_maker()
         menu_third_page = self.frame_maker()
         menu_adding_person = self.frame_maker()
@@ -82,26 +61,75 @@ class App(PopUps):
         menu_list_people = self.frame_maker()
         menu_statistics = self.frame_maker()
 
-        menu_list = [menu_first_page, menu_second_page, menu_third_page, menu_adding_person, menu_dev_tools,
-                     menu_list_people, menu_statistics]
+        menu_list = [self.menu_logging_page, self.menu_first_page, menu_second_page, menu_third_page,
+                     menu_adding_person, menu_dev_tools, menu_list_people, menu_statistics]
+
+        self.logging_page_frame()
 
         for frame in menu_list:
             frame.grid(row=0, column=0, sticky='news')
 
-        self.buttons_main_page(menu_first_page, menu_second_page, menu_third_page, opt_dev=menu_dev_tools,
+        self.buttons_main_page(self.menu_first_page, menu_second_page, menu_third_page, opt_dev=menu_dev_tools,
                                opt_stat=menu_statistics)
-        self.buttons_client_service(menu_second_page, menu_first_page)
-        self.buttons_data_base(menu_third_page, menu_first_page, menu_adding_person)
+        self.buttons_client_service(menu_second_page, self.menu_first_page)
+        self.buttons_data_base(menu_third_page, self.menu_first_page, menu_adding_person)
 
         self.menu_adding_person(menu_adding_person, menu_third_page)
-        self.menu_dev_tools(menu_dev_tools, menu_first_page)
-        self.menu_stat(menu_statistics, menu_first_page)
+        self.menu_dev_tools(menu_dev_tools, self.menu_first_page)
+        self.menu_stat(menu_statistics, self.menu_first_page)
 
-        menu_first_page.tkraise()
+        if custom_enterance:
+            self.user = user
+            self.password = password
+            self.menu_logging_page.destroy()
+            self.db_setup()
+            self.menu_first_page.tkraise()
+
+        else:
+            self.menu_logging_page.tkraise()
 
         self.main_window.mainloop()
 
         return True
+
+    def logging_page_frame(self):
+        label_info = ct.CTkLabel(self.menu_logging_page, text="Łączenie z bazą MySQL", text_font=("Bold", 16))
+
+        label_user = ct.CTkLabel(self.menu_logging_page, text="User")
+
+        self.entry_box_user = ct.CTkEntry(self.menu_logging_page, width=140, height=30, fg_color="#F9F9F9",
+                                          corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        label_passowrd = ct.CTkLabel(self.menu_logging_page, text="Password")
+
+        self.entry_box_pass = ct.CTkEntry(self.menu_logging_page, width=140, height=30, fg_color="#F9F9F9",
+                                          corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        logging_button = ct.CTkButton(self.menu_logging_page, text="Zaloguj się", fg_color="#3BE519", corner_radius=5,
+                                      hover_color="#80F069", command=self.click_log_page)
+
+        self.label_info_bottom = ct.CTkLabel(self.menu_logging_page, text="", text_color="red", text_font=("Bold", 16))
+
+        label_info.pack(side="top", pady=15)
+        label_user.pack(side="top")
+        self.entry_box_user.pack(side="top")
+        label_passowrd.pack(side="top")
+        self.entry_box_pass.pack(side="top")
+        logging_button.pack(side="top", pady=25)
+        self.label_info_bottom.pack(side="top")
+
+    def click_log_page(self):
+        self.user = self.entry_box_user.get()
+        self.password = self.entry_box_pass.get()
+
+        try:
+            DataBaseTester(self.user, self.password).inicjowanie_bazy_danych()
+            self.menu_logging_page.destroy()
+            self.db_setup()
+            self.frame_changer(self.menu_first_page)
+
+        except errors.ProgrammingError:
+            self.label_info_bottom.configure(text=f"Nieprawdiłowe dane")
 
     def frame_maker(self, width=0, height=0, custom=False):
         if custom:
