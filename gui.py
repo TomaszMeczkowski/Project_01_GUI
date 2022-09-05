@@ -4,6 +4,7 @@ from pop_ups import PopUps
 import customtkinter as ct
 from database import DataBaseTester
 from mysql.connector import errors
+from PIL import Image, ImageTk
 
 
 class App(PopUps):
@@ -16,12 +17,9 @@ class App(PopUps):
         self.entry_box_imie, self.entry_box_nazwisko, self.cbox_pasy, self.cbox_belki = None, None, None, None
         self.fg_col, self.font, self.hov_col = None, None, None
         self.width_but, self.heigh_but, self.corner_rad = None, None, None
-        self.menu_first_page = None
-        self.entry_box_user = None
-        self.entry_box_pass = None
-        self.label_info_bottom = None
-
-        self.menu_logging_page = None
+        self.menu_first_page, self.entry_box_user, self.entry_box_pass, self.label_info_bottom = None, None, None, None
+        self.menu_logging_page, self.asterix_decision, self.password_show_button = None, None, None
+        self.icon_show, self.icon_hide = None, None
 
     def db_setup(self):
         self.inicjowanie_bazy_danych()
@@ -51,7 +49,6 @@ class App(PopUps):
         self.main_window.resizable(width=False, height=False)
         # self.main_window.resizable(width=True, height=True)
 
-        # self.menu_logging_page = ct.CTkFrame(self.main_window, fg_color=basic_setup.foreground_color)
         self.menu_logging_page = self.frame_maker()
         self.menu_first_page = self.frame_maker()
         menu_second_page = self.frame_maker()
@@ -103,10 +100,18 @@ class App(PopUps):
         label_passowrd = ct.CTkLabel(self.menu_logging_page, text="Password")
 
         self.entry_box_pass = ct.CTkEntry(self.menu_logging_page, width=140, height=30, fg_color="#F9F9F9",
-                                          corner_radius=2, border_color="#26B9EF", border_width=2)
+                                          corner_radius=2, border_color="#26B9EF", border_width=2, show="*")
+
+        self.icon_show = ImageTk.PhotoImage(Image.open("./icons/show.png").resize((30, 30), Image.ANTIALIAS))
+        self.icon_hide = ImageTk.PhotoImage(Image.open("./icons/hide.png").resize((30, 30), Image.ANTIALIAS))
+
+        self.password_show_button = ct.CTkButton(self.menu_logging_page, image=self.icon_show, text="",
+                                                 command=self.asterix_log_page, width=40, fg_color="white",
+                                                 hover_color="#F7F7F7")
 
         logging_button = ct.CTkButton(self.menu_logging_page, text="Zaloguj się", fg_color="#3BE519", corner_radius=5,
                                       hover_color="#80F069", command=self.click_log_page)
+        # self.menu_logging_page.bind("<Return>", self.click_log_page)
 
         self.label_info_bottom = ct.CTkLabel(self.menu_logging_page, text="", text_color="red", text_font=("Bold", 16))
 
@@ -115,8 +120,11 @@ class App(PopUps):
         self.entry_box_user.pack(side="top")
         label_passowrd.pack(side="top")
         self.entry_box_pass.pack(side="top")
+        self.password_show_button.place(x=334, y=142)
         logging_button.pack(side="top", pady=25)
         self.label_info_bottom.pack(side="top")
+
+        self.asterix_decision = True
 
     def click_log_page(self):
         self.user = self.entry_box_user.get()
@@ -129,7 +137,18 @@ class App(PopUps):
             self.frame_changer(self.menu_first_page)
 
         except errors.ProgrammingError:
-            self.label_info_bottom.configure(text=f"Nieprawdiłowe dane")
+            self.label_info_bottom.configure(text=f"Nieprawidłowe dane")
+
+    def asterix_log_page(self):
+
+        if self.asterix_decision:
+            self.entry_box_pass.configure(show="")
+            self.password_show_button.configure(image=self.icon_hide)
+            self.asterix_decision = False
+        else:
+            self.entry_box_pass.configure(show="*")
+            self.password_show_button.configure(image=self.icon_show)
+            self.asterix_decision = True
 
     def frame_maker(self, width=0, height=0, custom=False):
         if custom:
