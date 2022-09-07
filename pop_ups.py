@@ -3,7 +3,7 @@ from tkinter import ttk
 import basic_setup as settings
 from database import DataBase
 from tkinter import Menu
-import customtkinter
+import customtkinter as ct
 
 
 class PopUps(DataBase):
@@ -23,40 +23,40 @@ class PopUps(DataBase):
         decision.resizable(width=False, height=False)
         decision.config(bg="#B0E0E6")
 
-        label1 = customtkinter.CTkLabel(decision, width=200, height=100, corner_radius=5,
-                                        fg_color="#E0FFFF",
-                                        text_font=("Bold", 14),
-                                        text=f"Przekazane Parametry"
-                                             f"\n"
-                                             f"\nImie: {imie}"
-                                             f"\nNazwisko: {nazwisko}"
-                                             f"\nPas: {pas}"
-                                             f"\nBelki: {belki}")
+        label1 = ct.CTkLabel(decision, width=200, height=100, corner_radius=5,
+                             fg_color="#E0FFFF",
+                             text_font=("Bold", 14),
+                             text=f"Przekazane Parametry"
+                                  f"\n"
+                                  f"\nImie: {imie}"
+                                  f"\nNazwisko: {nazwisko}"
+                                  f"\nPas: {pas}"
+                                  f"\nBelki: {belki}")
         label1.place(x=50, y=20)
 
-        label2 = customtkinter.CTkLabel(decision, text="Zatwierdzić", text_font=("Bold", 16), fg_color="#E0FFFF")
+        label2 = ct.CTkLabel(decision, text="Zatwierdzić", text_font=("Bold", 16), fg_color="#E0FFFF")
         label2.place(x=85, y=160)
 
-        button1 = customtkinter.CTkButton(decision,
-                                          command=lambda: [decision.destroy(),
-                                                           self.error_info(off=True) if
-                                                           self.dodawanie_osob(imie, nazwisko, pas, belki) else
-                                                           self.error_info(
-                                                           mess="Error 1: Taka osoba już się znajduję w bazie danych")
-                                                           ],
-                                          text="Tak",
-                                          text_font=("Bold", 16),
-                                          width=80,
-                                          height=30,
-                                          corner_radius=5,
-                                          fg_color="green",
-                                          hover_color="green"
-                                          )
+        button1 = ct.CTkButton(decision,
+                               command=lambda: [decision.destroy(),
+                                                self.error_info(off=True) if
+                                                self.dodawanie_osob(imie, nazwisko, pas, belki) else
+                                                self.error_info(
+                                                    mess="Error 1: Taka osoba już się znajduję w bazie danych")
+                                                ],
+                               text="Tak",
+                               text_font=("Bold", 16),
+                               width=80,
+                               height=30,
+                               corner_radius=5,
+                               fg_color="green",
+                               hover_color="green"
+                               )
         button1.place(x=65, y=220)
 
-        button2 = customtkinter.CTkButton(decision, command=lambda: decision.destroy(), text="Nie",
-                                          text_font=("Bold", 16), fg_color="red", width=80, height=30, corner_radius=5,
-                                          hover_color="red")
+        button2 = ct.CTkButton(decision, command=lambda: decision.destroy(), text="Nie",
+                               text_font=("Bold", 16), fg_color="red", width=80, height=30, corner_radius=5,
+                               hover_color="red")
         button2.place(x=150, y=220)
 
         decision.tkraise()
@@ -170,30 +170,29 @@ class PopUps(DataBase):
 
     def id_finder_frame(self):
 
-        decision = tk.Toplevel()
+        decision = ct.CTkToplevel()
+        # decision = tk.Toplevel()
         decision.title(settings.title_main)
-        decision.geometry("270x150")
+        decision.geometry("400x400")
         decision.resizable(width=False, height=False)
         decision.config(bg="white")
 
-        label = tk.Label(decision, text="Testowy", bg="white")
-        label.pack()
+        label_info = ct.CTkLabel(decision, text="Id finder", text_font=("Bold", 16))
+        label_imie = ct.CTkLabel(decision, text="Imię")
 
-        # Pole do wprowadzania id, przycisk do wykonania -> na dole wyskakuje jego imię i nazwisko
+        entry_box_imie = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                     corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        # label2 = tk.Label(decision, text=f"\nChcesz zresetować baze danych?"
-        #                                  f"\n(Wszystkie dane zostaną utracone)",
-        #                   font=16)
-        # label2.place(x=12, y=6)
-        #
-        # button1 = tk.Button(decision,
-        #                     command=lambda: [decision.destroy(),
-        #                                      self.reset_bazy_danych()],
-        #                     text="Tak", font=16, bg="green")
-        # button1.place(x=94, y=84)
-        #
-        # button2 = tk.Button(decision, command=lambda: decision.destroy(), text="Nie", font=16, bg="red")
-        # button2.place(x=146, y=84)
+        label_nazwisko = ct.CTkLabel(decision, text="Password")
+
+        entry_box_nazwisko = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                         corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        label_info.pack(side="top", pady=15)
+        label_imie  .pack(side="top")
+        entry_box_imie.pack(side="top")
+        label_nazwisko.pack(side="top")
+        entry_box_nazwisko.pack(side="top")
 
         decision.tkraise()
         decision.mainloop()
