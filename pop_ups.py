@@ -171,7 +171,7 @@ class PopUps(DataBase):
     def id_finder_frame(self):
 
         decision = ct.CTkToplevel()
-        # decision = tk.Toplevel()
+        # decision = tk.Toplevel()  # Bezproblemowy start a wyżej tak, dlaczego ?
         decision.title(settings.title_main)
         decision.geometry("400x400")
         decision.resizable(width=False, height=False)
