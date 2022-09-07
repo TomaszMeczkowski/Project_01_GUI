@@ -10,6 +10,9 @@ class PopUps(DataBase):
 
     def __init__(self):
         DataBase.__init__(self)
+        self.label_wynik = None
+        self.entry_box_imie_id_finder = None
+        self.entry_box_nazwisko_id_finder = None
 
     def confirm_adding_people(self, *args):
         imie = args[0]
@@ -170,8 +173,7 @@ class PopUps(DataBase):
 
     def id_finder_frame(self):
 
-        decision = ct.CTkToplevel()
-        # decision = tk.Toplevel()  # Bezproblemowy start a wyżej tak, dlaczego ?
+        decision = tk.Toplevel()
         decision.title(settings.title_main)
         decision.geometry("400x400")
         decision.resizable(width=False, height=False)
@@ -180,19 +182,37 @@ class PopUps(DataBase):
         label_info = ct.CTkLabel(decision, text="Id finder", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
 
-        entry_box_imie = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                     corner_radius=2, border_color="#26B9EF", border_width=2)
+        self.entry_box_imie_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                          corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        label_nazwisko = ct.CTkLabel(decision, text="Password")
+        label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
 
-        entry_box_nazwisko = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                         corner_radius=2, border_color="#26B9EF", border_width=2)
+        self.entry_box_nazwisko_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                              corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        button_szukaj = ct.CTkButton(decision, text="Szukaj", fg_color="#3BE519", corner_radius=5,
+                                     hover_color="#80F069", command=self.id_finder_operation)
+
+        self.label_wynik = ct.CTkLabel(decision, text="", text_font=("Bold", 16))
 
         label_info.pack(side="top", pady=15)
-        label_imie  .pack(side="top")
-        entry_box_imie.pack(side="top")
+        label_imie.pack(side="top")
+        self.entry_box_imie_id_finder.pack(side="top")
         label_nazwisko.pack(side="top")
-        entry_box_nazwisko.pack(side="top")
+        self.entry_box_nazwisko_id_finder.pack(side="top")
+        button_szukaj.pack(side="top", pady=25)
+        self.label_wynik.pack(side="top", pady=25)
 
         decision.tkraise()
         decision.mainloop()
+
+    def id_finder_operation(self):
+        imie = self.entry_box_imie_id_finder.get()
+        nazwisko = self.entry_box_nazwisko_id_finder.get()
+
+        wynik = self.id_finder(imie, nazwisko)
+
+        if not wynik:
+            self.label_wynik.configure(text="Nie znaleziono takiej osoby", text_color="red")
+        else:
+            self.label_wynik.configure(text=f"Id szukanej osoby: {wynik}", text_color="black")
