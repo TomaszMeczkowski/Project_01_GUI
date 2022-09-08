@@ -13,6 +13,9 @@ class PopUps(DataBase):
         self.label_wynik = None
         self.entry_box_imie_id_finder = None
         self.entry_box_nazwisko_id_finder = None
+        self.entry_box_imie_spr_karnetu = None
+        self.entry_box_nazwisko_spr_karnetu = None
+        self.label_wynik_spr_karnetu = None
 
     def confirm_adding_people(self, *args):
         imie = args[0]
@@ -183,17 +186,17 @@ class PopUps(DataBase):
         label_imie = ct.CTkLabel(decision, text="Imię")
 
         self.entry_box_imie_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                          corner_radius=2, border_color="#26B9EF", border_width=2)
+                                                    corner_radius=2, border_color="#26B9EF", border_width=2)
 
         label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
 
         self.entry_box_nazwisko_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                              corner_radius=2, border_color="#26B9EF", border_width=2)
+                                                        corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        button_szukaj = ct.CTkButton(decision, text="Szukaj", fg_color="#3BE519", corner_radius=5,
-                                     hover_color="#80F069", command=self.id_finder_operation)
+        button_szukaj = ct.CTkButton(decision, text="Szukaj", fg_color="#2CEFE8", corner_radius=5,
+                                     hover_color="#99FDFA", command=self.id_finder_operation)
 
-        self.label_wynik = ct.CTkLabel(decision, text="", text_font=("Bold", 16))
+        self.label_wynik = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
 
         label_info.pack(side="top", pady=15)
         label_imie.pack(side="top")
@@ -215,4 +218,61 @@ class PopUps(DataBase):
         if not wynik:
             self.label_wynik.configure(text="Nie znaleziono takiej osoby", text_color="red")
         else:
-            self.label_wynik.configure(text=f"Id szukanej osoby: {wynik}", text_color="black")
+            self.label_wynik.configure(text=f"Nr id szukanej osoby: {wynik}", text_color="black")
+
+    def sprawdzanie_karnetu_frame(self):
+
+        decision = tk.Toplevel()
+        decision.title(settings.title_main)
+        decision.geometry("400x400")
+        decision.resizable(width=False, height=False)
+        decision.config(bg="white")
+
+        label_info = ct.CTkLabel(decision, text="Sprawdzanie karnetu", text_font=("Bold", 16))
+        label_imie = ct.CTkLabel(decision, text="Imię")
+
+        self.entry_box_imie_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                                      corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
+
+        self.entry_box_nazwisko_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                                          corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        button_szukaj = ct.CTkButton(decision, text="Sprawdź", fg_color="#2CEFE8", corner_radius=5,
+                                     hover_color="#99FDFA", command=self.spr_karnet_operation)
+
+        self.label_wynik_spr_karnetu = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
+
+        label_info.pack(side="top", pady=15)
+        label_imie.pack(side="top")
+        self.entry_box_imie_spr_karnetu.pack(side="top")
+        label_nazwisko.pack(side="top")
+        self.entry_box_nazwisko_spr_karnetu.pack(side="top")
+        button_szukaj.pack(side="top", pady=25)
+        self.label_wynik_spr_karnetu.pack(side="top", pady=25)
+
+        decision.tkraise()
+        decision.mainloop()
+
+    def spr_karnet_operation(self):
+        imie = self.entry_box_imie_spr_karnetu.get()
+        nazwisko = self.entry_box_nazwisko_spr_karnetu.get()
+        user_id = self.id_finder(imie, nazwisko)
+
+        wynik = self.ticket_check(user_id)
+
+        # Przypadek 1 -> Karnet normalny
+        # Przypadek 2 -> Karnet Open
+        # Przypadek 3 -> Karnet Wykorzystany
+        # Przypadek 4 -> Nie ma takiej osoby w bazie
+
+        if wynik[0] and wynik[1] < 100:
+            self.label_wynik_spr_karnetu.configure(text=f"Karnet aktywny \nPozostało {wynik[1]} wejść do wykorzystania",
+                                                   text_color="black")
+        elif wynik[0] and wynik[1] > 100:
+            self.label_wynik_spr_karnetu.configure(text="Karnet Open \nNielimitowany dostęp", text_color="black")
+        elif not wynik[0] and not wynik[1]:
+            self.label_wynik_spr_karnetu.configure(text="Karnet został wykorzystany", text_color="red")
+        else:
+            self.label_wynik_spr_karnetu.configure(text="Nie znaleziono takiej osoby", text_color="red")

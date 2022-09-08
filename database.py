@@ -395,3 +395,27 @@ class DataBase:
             id_osoby = False
 
         return id_osoby
+
+    def ticket_check(self, id_osoby):
+        db, cursor_object = self.data_base_connector()
+        zapytanie = f"SELECT aktywny_karnet, pozostale_treningi_w_miesiacu " \
+                    f"FROM karnety WHERE id = {id_osoby};"
+        cursor_object.execute(zapytanie)
+        wynik = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        try:
+            activ = bool(wynik[0][0])
+            amount_left = wynik[0][1]
+        except IndexError:
+            return False, True
+
+        if activ and 0 < amount_left < 100:
+            return activ, amount_left
+
+        elif activ and amount_left > 100:
+            return activ, amount_left
+
+        else:
+            return False, False
