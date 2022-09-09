@@ -323,11 +323,72 @@ class PopUps(DataBase):
         if not user_id:
             return self.label_wynik_wydawanie_kluczyka.configure(text="Nie ma takiej osoby", text_color="red")
 
-        choice = self.key_giveaway(user_id)
-
-        if choice:
+        if self.key_giveaway(user_id):
             return self.label_wynik_wydawanie_kluczyka.configure(text="Wydano kluczyk", text_color="black")
         else:
             return self.label_wynik_wydawanie_kluczyka.configure(text="Nie można wydać kluczyka \nKarnet wykorzystany"
                                                                  , text_color="red")
+
+    def aktywnosc_klubu_frame(self, size="380x400"):
+
+        message_app = tk.Toplevel()
+        message_app.title(settings.title_main)
+        message_app.geometry(size)
+        message_app.resizable(width=False, height=False)
+        message_app.config(bg="white")
+        label = tk.Label(message_app, text="Aktywność klubu", bg="white", font=14)
+        label.pack(side="top", pady=15)
+
+        text = self.wyswietlanie_aktywnosc_klubu()
+        if not text:
+            text = ["Brak Danych", "---", "---"]
+
+        scrol_bar = tk.Scrollbar(message_app)
+        scrol_bar.pack(side="right", fill="y")
+        tree_view = ttk.Treeview(message_app, yscrollcommand=scrol_bar.set, height=25)
+        tree_view.pack(side="left", padx=40, pady=15)
+        scrol_bar.config(command=tree_view.yview)
+
+        # Kolumny tabeli
+        col = ("1", "2", "3")
+        col_names = ["Ilość wejść", "Miesiac", "Rok"]
+        col_width = [120, 90, 60]
+        tree_view['columns'] = col
+
+        tree_view.column("#0", width=0)
+        for i in range(len(col)):
+            tree_view.column(f"{col[i]}", width=col_width[i], anchor="center")
+
+        # Nagłówki kolumn
+        tree_view.heading("#0", text="")
+        for i in range(len(col)):
+            tree_view.heading(f"{col[i]}", text=f"{col_names[i]}", anchor="center")
+        for i in text:
+            tree_view.insert(parent="", index="end", text="", values=i)
+
+        # Menu Bar
+        menu_bar = Menu(message_app)
+        message_app.config(menu=menu_bar)
+        file_menu = Menu(menu_bar, tearoff=False)
+        # Tkinter z defaultu dodaje pasek na górze który wyłączamy przez tearoff
+
+        print_out_menu = Menu(file_menu, tearoff=False)
+        print_out_menu.add_command(label="Plik tekstowy .txt", command="lambda: self.print_to_txt()")
+        print_out_menu.add_command(label="Arkusz kalkulacyjny .xlsx", command="lambda: self.print_to_excel()")
+
+        file_menu.add_cascade(label="Wydruk", menu=print_out_menu)
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=message_app.destroy)
+
+        help_menu = Menu(menu_bar, tearoff=False)
+        help_menu.add_command(label="#### Under Construction #####")
+        help_menu.add_command(label='Q&A')
+        help_menu.add_command(label='Help.txt')
+        help_menu.add_command(label="#### Under Construction #####")
+
+        menu_bar.add_cascade(label="Opcje", menu=file_menu)
+        menu_bar.add_cascade(label="Help", menu=help_menu)
+
+        message_app.tkraise()
+        message_app.mainloop()
 

@@ -444,12 +444,9 @@ class DataBase:
 
             self.statystyki_klubowe_wejscia()
             self.statystyki_osobowe_wejscia(id_osoby)
-
-            # print(colored("\nMożna wydać kluczyk\n", "green"))
             return True
 
         else:
-            # print(colored("\nBrak aktywnego karnetu\n", "red"))
             return False
 
     def statystyki_klubowe_wejscia(self):
@@ -526,3 +523,19 @@ class DataBase:
 
         db.commit()
         db.close()
+
+    def wyswietlanie_aktywnosc_klubu(self):
+        db, cursor_object = self.data_base_connector()
+
+        zapytanie = f"SELECT ilosc_wejsc, miesiac, rok FROM statystyki_klubowe;"
+        cursor_object.execute(zapytanie)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        try:
+            wyniki[0][1]
+            return wyniki
+        except IndexError:
+            return False
+
