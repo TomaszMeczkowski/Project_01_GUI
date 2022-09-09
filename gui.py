@@ -233,7 +233,7 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tk.DISABLED)
+                               command=self.wydawanie_kluczyka_frame)
 
         button2 = ct.CTkButton(master_window,
                                text="2. Sprzedaj karnet",
@@ -268,7 +268,7 @@ class App(PopUps):
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
-                               width=self.width_but,
+                               width=self.width_but-50,
                                height=self.heigh_but,
                                corner_radius=self.corner_rad,
                                command=lambda: self.frame_changer(opt1),
@@ -299,7 +299,7 @@ class App(PopUps):
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
                                text_font=self.font, state=tk.DISABLED)
 
-        button5 = ct.CTkButton(master_window, text="Powrót", width=250, height=40,
+        button5 = ct.CTkButton(master_window, text="Powrót", width=250-50, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
                                text_font=self.font, command=lambda: self.frame_changer(opt1))
 
@@ -468,7 +468,7 @@ class App(PopUps):
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
-                               width=self.width_but,
+                               width=self.width_but-50,
                                height=self.heigh_but,
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,
@@ -532,7 +532,7 @@ class App(PopUps):
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
-                               width=self.width_but,
+                               width=self.width_but-50,
                                height=self.heigh_but,
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,

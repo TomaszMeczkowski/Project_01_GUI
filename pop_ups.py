@@ -276,3 +276,58 @@ class PopUps(DataBase):
             self.label_wynik_spr_karnetu.configure(text="Karnet został wykorzystany", text_color="red")
         else:
             self.label_wynik_spr_karnetu.configure(text="Nie znaleziono takiej osoby", text_color="red")
+
+    def wydawanie_kluczyka_frame(self):
+
+        decision = tk.Toplevel()
+        decision.title(settings.title_main)
+        decision.geometry("400x400")
+        decision.resizable(width=False, height=False)
+        decision.config(bg="white")
+
+        label_info = ct.CTkLabel(decision, text="Wydawanie kluczyka", text_font=("Bold", 16))
+        label_imie = ct.CTkLabel(decision, text="Imię")
+
+        entry_box_imie_wydawanie_kluczyka = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                                        corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
+
+        entry_box_nazwisko_wydawanie_kluczyka = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                                            corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        button_szukaj = ct.CTkButton(decision, text="Wydawanie kluczyka", fg_color="#2CEFE8", corner_radius=5,
+                                     hover_color="#99FDFA",
+                                     command=lambda: self.wydawanie_kluczyka_operacja(
+                                         entry_box_imie_wydawanie_kluczyka.get(),
+                                         entry_box_nazwisko_wydawanie_kluczyka.get()
+                                             )
+                                     )
+
+        self.label_wynik_wydawanie_kluczyka = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
+
+        label_info.pack(side="top", pady=15)
+        label_imie.pack(side="top")
+        entry_box_imie_wydawanie_kluczyka.pack(side="top")
+        label_nazwisko.pack(side="top")
+        entry_box_nazwisko_wydawanie_kluczyka.pack(side="top")
+        button_szukaj.pack(side="top", pady=25)
+        self.label_wynik_wydawanie_kluczyka.pack(side="top", pady=25)
+
+        decision.tkraise()
+        decision.mainloop()
+
+    def wydawanie_kluczyka_operacja(self, imie, nazwisko):
+
+        user_id = self.id_finder(imie, nazwisko)
+        if not user_id:
+            return self.label_wynik_wydawanie_kluczyka.configure(text="Nie ma takiej osoby", text_color="red")
+
+        choice = self.key_giveaway(user_id)
+
+        if choice:
+            return self.label_wynik_wydawanie_kluczyka.configure(text="Wydano kluczyk", text_color="black")
+        else:
+            return self.label_wynik_wydawanie_kluczyka.configure(text="Nie można wydać kluczyka \nKarnet wykorzystany"
+                                                                 , text_color="red")
+
