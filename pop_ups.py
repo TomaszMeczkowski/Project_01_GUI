@@ -341,7 +341,7 @@ class PopUps(DataBase):
 
         text = self.wyswietlanie_aktywnosc_klubu()
         if not text:
-            text = ["Brak Danych", "---", "---"]
+            text = ["Brak Danych"]
 
         scrol_bar = tk.Scrollbar(message_app)
         scrol_bar.pack(side="right", fill="y")
