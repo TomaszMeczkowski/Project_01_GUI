@@ -505,7 +505,7 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tk.DISABLED
+                               command=self.aktywnosc_osoby_parametry_frame
                                )
 
         button3 = ct.CTkButton(master_window,

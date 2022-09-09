@@ -539,3 +539,33 @@ class DataBase:
         except IndexError:
             return False
 
+    def stat_entry_by_id(self, id_osoby):
+        db, cursor_object = self.data_base_connector()
+
+        zapytanie = f"SELECT ilosc_wejsc, miesiac, rok FROM statystyki_osobowe WHERE id_osoby = {id_osoby};"
+        cursor_object.execute(zapytanie)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        try:
+            wyniki[0][1]
+        except IndexError:
+            return False
+
+        counter = 0
+        for i in wyniki:
+            counter += i[0]
+
+        db, cursor_object = self.data_base_connector()
+        zapytanie = f"SELECT pierwszy_trening FROM dodatkowe_info_osoby WHERE id_osoby = {id_osoby} LIMIT 1;"
+        cursor_object.execute(zapytanie)
+        first_day = str(cursor_object.fetchall()[0][0])
+        # first_day = mysql_data_converter(first_day)
+        db.commit()
+        db.close()
+
+        return wyniki, first_day
+
+        # print(f"\nŁączna ilość treningów: {colored(str(counter), 'blue')}")
+        # print(f"Pierwszy trening: {colored(str(first_day), 'blue')}")

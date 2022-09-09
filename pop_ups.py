@@ -16,6 +16,8 @@ class PopUps(DataBase):
         self.entry_box_imie_spr_karnetu = None
         self.entry_box_nazwisko_spr_karnetu = None
         self.label_wynik_spr_karnetu = None
+        self.label_wynik_wydawanie_kluczyka = None
+        self.label_wynik_aktywnosc_osoby = None
 
     def confirm_adding_people(self, *args):
         imie = args[0]
@@ -326,8 +328,8 @@ class PopUps(DataBase):
         if self.key_giveaway(user_id):
             return self.label_wynik_wydawanie_kluczyka.configure(text="Wydano kluczyk", text_color="black")
         else:
-            return self.label_wynik_wydawanie_kluczyka.configure(text="Nie można wydać kluczyka \nKarnet wykorzystany"
-                                                                 , text_color="red")
+            return self.label_wynik_wydawanie_kluczyka.configure(text="Nie można wydać kluczyka \nKarnet wykorzystany",
+                                                                 text_color="red")
 
     def aktywnosc_klubu_frame(self, size="380x400"):
 
@@ -392,3 +394,114 @@ class PopUps(DataBase):
         message_app.tkraise()
         message_app.mainloop()
 
+    def aktywnosc_osoby_parametry_frame(self):
+        decision = tk.Toplevel()
+        decision.title(settings.title_main)
+        decision.geometry("400x400")
+        decision.resizable(width=False, height=False)
+        decision.config(bg="white")
+
+        label_info = ct.CTkLabel(decision, text="Aktywność użytkownika", text_font=("Bold", 16))
+        label_imie = ct.CTkLabel(decision, text="Imię")
+
+        entry_box_imie_wydawanie_kluczyka = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                                        corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
+
+        entry_box_nazwisko_wydawanie_kluczyka = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                                            corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        button_szukaj = ct.CTkButton(decision, text="Zatwierdź", fg_color="#2CEFE8", corner_radius=5,
+                                     hover_color="#99FDFA",
+                                     command=lambda: self.aktywnosc_osoby_frame(
+                                         entry_box_imie_wydawanie_kluczyka.get(),
+                                         entry_box_nazwisko_wydawanie_kluczyka.get()
+                                     )
+                                     )
+
+        self.label_wynik_aktywnosc_osoby = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
+
+        label_info.pack(side="top", pady=15)
+        label_imie.pack(side="top")
+        entry_box_imie_wydawanie_kluczyka.pack(side="top")
+        label_nazwisko.pack(side="top")
+        entry_box_nazwisko_wydawanie_kluczyka.pack(side="top")
+        button_szukaj.pack(side="top", pady=25)
+        self.label_wynik_aktywnosc_osoby.pack(side="top", pady=25)
+
+        decision.tkraise()
+        decision.mainloop()
+
+    def aktywnosc_osoby_frame(self, imie, nazwisko, size="380x400"):
+
+        user_id = self.id_finder(imie, nazwisko)
+
+        if not user_id:
+            return self.label_wynik_aktywnosc_osoby.configure(text="Brak takiej osoby", text_color="red")
+
+        self.label_wynik_aktywnosc_osoby.configure(text="", text_color="black")
+
+        message_app = tk.Toplevel()
+        message_app.title(settings.title_main)
+        message_app.geometry(size)
+        message_app.resizable(width=False, height=False)
+        message_app.config(bg="white")
+        label = tk.Label(message_app, text="Aktywność osoby", bg="white", font=14)
+        label.pack(side="top", pady=15)
+
+        text, first_day = self.stat_entry_by_id(user_id)  # Tutaj będziemy wprowadzać id osoby
+        if not text:
+            text = ["Brak Danych"]
+
+        label = tk.Label(message_app, text=f"Pierwszy trening: {first_day}", bg="white", font=14)
+        label.pack(side="top", pady=5)
+
+        scrol_bar = tk.Scrollbar(message_app)
+        scrol_bar.pack(side="right", fill="y")
+        tree_view = ttk.Treeview(message_app, yscrollcommand=scrol_bar.set, height=25)
+        tree_view.pack(side="left", padx=40, pady=15)
+        scrol_bar.config(command=tree_view.yview)
+
+        # Kolumny tabeli
+        col = ("1", "2", "3")
+        col_names = ["Ilość wejść", "Miesiac", "Rok"]
+        col_width = [120, 90, 60]
+        tree_view['columns'] = col
+
+        tree_view.column("#0", width=0)
+        for i in range(len(col)):
+            tree_view.column(f"{col[i]}", width=col_width[i], anchor="center")
+
+        # Nagłówki kolumn
+        tree_view.heading("#0", text="")
+        for i in range(len(col)):
+            tree_view.heading(f"{col[i]}", text=f"{col_names[i]}", anchor="center")
+        for i in text:
+            tree_view.insert(parent="", index="end", text="", values=i)
+
+        # Menu Bar
+        menu_bar = Menu(message_app)
+        message_app.config(menu=menu_bar)
+        file_menu = Menu(menu_bar, tearoff=False)
+        # Tkinter z defaultu dodaje pasek na górze który wyłączamy przez tearoff
+
+        print_out_menu = Menu(file_menu, tearoff=False)
+        print_out_menu.add_command(label="Plik tekstowy .txt", command="lambda: self.print_to_txt()")
+        print_out_menu.add_command(label="Arkusz kalkulacyjny .xlsx", command="lambda: self.print_to_excel()")
+
+        file_menu.add_cascade(label="Wydruk", menu=print_out_menu)
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=message_app.destroy)
+
+        help_menu = Menu(menu_bar, tearoff=False)
+        help_menu.add_command(label="#### Under Construction #####")
+        help_menu.add_command(label='Q&A')
+        help_menu.add_command(label='Help.txt')
+        help_menu.add_command(label="#### Under Construction #####")
+
+        menu_bar.add_cascade(label="Opcje", menu=file_menu)
+        menu_bar.add_cascade(label="Help", menu=help_menu)
+
+        message_app.tkraise()
+        message_app.mainloop()
