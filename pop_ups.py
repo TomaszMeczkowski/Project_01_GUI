@@ -11,8 +11,6 @@ class PopUps(DataBase):
     def __init__(self):
         DataBase.__init__(self)
         self.label_wynik = None
-        self.entry_box_imie_id_finder = None
-        self.entry_box_nazwisko_id_finder = None
         self.label_wynik_spr_karnetu = None
         self.label_wynik_wydawanie_kluczyka = None
         self.label_wynik_aktywnosc_osoby = None
@@ -185,33 +183,33 @@ class PopUps(DataBase):
         label_info = ct.CTkLabel(decision, text="Id finder", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
 
-        self.entry_box_imie_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                                    corner_radius=2, border_color="#26B9EF", border_width=2)
+        entry_box_imie_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                               corner_radius=2, border_color="#26B9EF", border_width=2)
 
         label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
 
-        self.entry_box_nazwisko_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                                        corner_radius=2, border_color="#26B9EF", border_width=2)
+        entry_box_nazwisko_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                                   corner_radius=2, border_color="#26B9EF", border_width=2)
 
         button_szukaj = ct.CTkButton(decision, text="Szukaj", fg_color="#2CEFE8", corner_radius=5,
-                                     hover_color="#99FDFA", command=self.id_finder_operation)
+                                     hover_color="#99FDFA",
+                                     command=lambda: self.id_finder_operation(entry_box_imie_id_finder.get(),
+                                                                              entry_box_nazwisko_id_finder.get()))
 
         self.label_wynik = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
 
         label_info.pack(side="top", pady=15)
         label_imie.pack(side="top")
-        self.entry_box_imie_id_finder.pack(side="top")
+        entry_box_imie_id_finder.pack(side="top")
         label_nazwisko.pack(side="top")
-        self.entry_box_nazwisko_id_finder.pack(side="top")
+        entry_box_nazwisko_id_finder.pack(side="top")
         button_szukaj.pack(side="top", pady=25)
         self.label_wynik.pack(side="top", pady=25)
 
         decision.tkraise()
         decision.mainloop()
 
-    def id_finder_operation(self):
-        imie = self.entry_box_imie_id_finder.get()
-        nazwisko = self.entry_box_nazwisko_id_finder.get()
+    def id_finder_operation(self, imie, nazwisko):
 
         wynik = self.id_finder(imie, nazwisko)
 
@@ -232,27 +230,27 @@ class PopUps(DataBase):
         label_imie = ct.CTkLabel(decision, text="Imię")
 
         entry_box_imie_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                                      corner_radius=2, border_color="#26B9EF", border_width=2)
+                                                 corner_radius=2, border_color="#26B9EF", border_width=2)
 
         label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
 
         entry_box_nazwisko_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-                                                          corner_radius=2, border_color="#26B9EF", border_width=2)
+                                                     corner_radius=2, border_color="#26B9EF", border_width=2)
 
         button_szukaj = ct.CTkButton(decision, text="Sprawdź", fg_color="#2CEFE8", corner_radius=5,
                                      hover_color="#99FDFA",
                                      command=lambda: self.spr_karnet_operation(entry_box_imie_spr_karnetu.get(),
-                                                                       entry_box_nazwisko_spr_karnetu.get()
-                                                                       )
+                                                                               entry_box_nazwisko_spr_karnetu.get()
+                                                                               )
                                      )
 
         self.label_wynik_spr_karnetu = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
 
         label_info.pack(side="top", pady=15)
         label_imie.pack(side="top")
-        self.entry_box_imie_spr_karnetu.pack(side="top")
+        entry_box_imie_spr_karnetu.pack(side="top")
         label_nazwisko.pack(side="top")
-        self.entry_box_nazwisko_spr_karnetu.pack(side="top")
+        entry_box_nazwisko_spr_karnetu.pack(side="top")
         button_szukaj.pack(side="top", pady=25)
         self.label_wynik_spr_karnetu.pack(side="top", pady=25)
 
@@ -304,7 +302,7 @@ class PopUps(DataBase):
                                      command=lambda: self.wydawanie_kluczyka_operacja(
                                          entry_box_imie_wydawanie_kluczyka.get(),
                                          entry_box_nazwisko_wydawanie_kluczyka.get()
-                                             )
+                                     )
                                      )
 
         self.label_wynik_wydawanie_kluczyka = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
