@@ -6,6 +6,7 @@ from random import choice, randint
 from pathlib import Path
 from os import mkdir, makedirs, path, system
 import pandas as pd
+import matplotlib.pyplot as plt
 import xlsxwriter
 
 
@@ -569,3 +570,52 @@ class DataBase:
 
         # print(f"\nŁączna ilość treningów: {colored(str(counter), 'blue')}")
         # print(f"Pierwszy trening: {colored(str(first_day), 'blue')}")
+
+    def plot_klub(self):
+        db, cursor_object = self.data_base_connector()
+
+        zapytanie = f"SELECT ilosc_wejsc, miesiac, rok FROM statystyki_klubowe;"
+        cursor_object.execute(zapytanie)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        try:
+            wyniki[0][0]
+        except IndexError:
+            # print(f"{colored('Brak danych statystycznych klubu', 'red')}")
+            return False
+
+        ilosc_wejsc, daty = [], []
+
+        for i in wyniki:
+            ilosc_wejsc.append(i[0])
+            daty.append(str(month_converter(i[1])) + "-" + str(i[2]))
+
+        x = np.array(daty)
+        y = np.array(ilosc_wejsc)
+
+        fig, ax = plt.subplots()
+        ax.plot(x, y, 'o-', linewidth=2.0)
+        ax.set(xlabel="Data", ylabel="Ilość wejść na sale", title=f"Aktywność klubowiczów")
+        fig.autofmt_xdate()
+
+        day, month, year = date_for_user()
+        fig.text(0.8, 0.02, f"Data wydruku: {day} {month} {year}", ha='center',
+                 fontweight='light', fontsize='x-small')
+        ax.grid()
+
+        script_path = Path(__file__).parent.resolve()
+        path_dir = path.join(script_path, "Wydruki", "Aktywnosc_klubu")
+
+        try:
+            makedirs(path_dir)
+        except FileExistsError:
+            pass
+
+        fig.savefig(rf"{path_dir}/aktywnosc_klubu.png")
+
+        # print(f"\n{colored('Wykres został zapisany na dysku', 'green')}\n")
+        plt.show()
+
+        return True

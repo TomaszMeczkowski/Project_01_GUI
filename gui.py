@@ -527,7 +527,7 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tk.DISABLED
+                               command=self.plot_klub
                                )
 
         button5 = ct.CTkButton(master_window,
