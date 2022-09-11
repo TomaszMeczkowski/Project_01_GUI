@@ -13,8 +13,6 @@ class PopUps(DataBase):
         self.label_wynik = None
         self.entry_box_imie_id_finder = None
         self.entry_box_nazwisko_id_finder = None
-        self.entry_box_imie_spr_karnetu = None
-        self.entry_box_nazwisko_spr_karnetu = None
         self.label_wynik_spr_karnetu = None
         self.label_wynik_wydawanie_kluczyka = None
         self.label_wynik_aktywnosc_osoby = None
@@ -233,16 +231,20 @@ class PopUps(DataBase):
         label_info = ct.CTkLabel(decision, text="Sprawdzanie karnetu", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
 
-        self.entry_box_imie_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+        entry_box_imie_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                                       corner_radius=2, border_color="#26B9EF", border_width=2)
 
         label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
 
-        self.entry_box_nazwisko_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+        entry_box_nazwisko_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                                           corner_radius=2, border_color="#26B9EF", border_width=2)
 
         button_szukaj = ct.CTkButton(decision, text="Sprawdź", fg_color="#2CEFE8", corner_radius=5,
-                                     hover_color="#99FDFA", command=self.spr_karnet_operation)
+                                     hover_color="#99FDFA",
+                                     command=lambda: self.spr_karnet_operation(entry_box_imie_spr_karnetu.get(),
+                                                                       entry_box_nazwisko_spr_karnetu.get()
+                                                                       )
+                                     )
 
         self.label_wynik_spr_karnetu = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
 
@@ -257,9 +259,8 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
-    def spr_karnet_operation(self):
-        imie = self.entry_box_imie_spr_karnetu.get()
-        nazwisko = self.entry_box_nazwisko_spr_karnetu.get()
+    def spr_karnet_operation(self, imie, nazwisko):
+
         user_id = self.id_finder(imie, nazwisko)
 
         wynik = self.ticket_check(user_id)
