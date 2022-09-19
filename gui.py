@@ -484,7 +484,7 @@ class App(PopUps):
         button5.pack(pady=50)
 
     def menu_stat(self, master_window, opt1):
-        but_add_width = 120
+        but_add_width = 20
 
         button1 = ct.CTkButton(master_window,
                                text="1. Aktywność klubu",
