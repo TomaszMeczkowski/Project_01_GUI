@@ -375,8 +375,9 @@ class PopUps(DataBase):
 
         print_out_menu = Menu(file_menu, tearoff=False)
         print_out_menu.add_command(label="Plik tekstowy .txt", command="lambda: self.print_to_txt()")
-        print_out_menu.add_command(label="Arkusz kalkulacyjny .xlsx", command="lambda: self.print_to_excel()")
+        print_out_menu.add_command(label="Arkusz kalkulacyjny .xlsx", command=self.print_to_excel_klub_aktywnosc)
 
+        file_menu.add_command(label="Wykres", command=self.plot_klub)
         file_menu.add_cascade(label="Wydruk", menu=print_out_menu)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=message_app.destroy)

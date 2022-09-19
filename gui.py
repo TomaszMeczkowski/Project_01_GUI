@@ -221,8 +221,8 @@ class App(PopUps):
         button1.pack(pady=5)
         button2.pack(pady=5)
         button3.pack(pady=5)
-        button4.pack(pady=5)
-        button5.pack(pady=50)
+        button4.pack(pady=45)
+        button5.pack(pady=25)
 
     def buttons_client_service(self, master_window, opt1):
         button1 = ct.CTkButton(master_window,
@@ -498,7 +498,7 @@ class App(PopUps):
                                )
 
         button2 = ct.CTkButton(master_window,
-                               text="2. Aktywność poszczególnych osób",
+                               text="2. Aktywność użytkowników",
                                width=self.width_but + but_add_width,
                                height=self.heigh_but,
                                corner_radius=self.corner_rad,
@@ -508,27 +508,27 @@ class App(PopUps):
                                command=self.aktywnosc_osoby_parametry_frame
                                )
 
-        button3 = ct.CTkButton(master_window,
-                               text="3. Wykresy aktywności osób",
-                               width=self.width_but + but_add_width,
-                               height=self.heigh_but,
-                               corner_radius=self.corner_rad,
-                               fg_color=self.fg_col,
-                               hover_color=self.hov_col,
-                               text_font=self.font,
-                               state=tk.DISABLED
-                               )
+        # button3 = ct.CTkButton(master_window,
+        #                        text="3. Wykresy aktywności osób",
+        #                        width=self.width_but + but_add_width,
+        #                        height=self.heigh_but,
+        #                        corner_radius=self.corner_rad,
+        #                        fg_color=self.fg_col,
+        #                        hover_color=self.hov_col,
+        #                        text_font=self.font,
+        #                        state=tk.DISABLED
+        #                        )
 
-        button4 = ct.CTkButton(master_window,
-                               text="4. Wykresy aktywności klubu",
-                               width=self.width_but + but_add_width,
-                               height=self.heigh_but,
-                               corner_radius=self.corner_rad,
-                               fg_color=self.fg_col,
-                               hover_color=self.hov_col,
-                               text_font=self.font,
-                               command=self.plot_klub
-                               )
+        # button4 = ct.CTkButton(master_window,
+        #                        text="4. Wykresy aktywności klubu",
+        #                        width=self.width_but + but_add_width,
+        #                        height=self.heigh_but,
+        #                        corner_radius=self.corner_rad,
+        #                        fg_color=self.fg_col,
+        #                        hover_color=self.hov_col,
+        #                        text_font=self.font,
+        #                        command=self.plot_klub
+        #                        )
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
@@ -543,6 +543,6 @@ class App(PopUps):
 
         button1.pack(pady=5)
         button2.pack(pady=5)
-        button3.pack(pady=5)
-        button4.pack(pady=5)
+        # button3.pack(pady=5)
+        # button4.pack(pady=5)
         button5.pack(pady=50)

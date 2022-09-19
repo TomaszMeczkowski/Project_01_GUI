@@ -597,7 +597,7 @@ class DataBase:
 
         fig, ax = plt.subplots()
         ax.plot(x, y, 'o-', linewidth=2.0)
-        ax.set(xlabel="Data", ylabel="Ilość wejść na sale", title=f"Aktywność klubowiczów")
+        ax.set(xlabel="Data [miesiąc-rok]", ylabel="Ilość wejść na sale", title=f"Aktywność klubu")
         fig.autofmt_xdate()
 
         day, month, year = date_for_user()
@@ -619,3 +619,46 @@ class DataBase:
         plt.show()
 
         return True
+
+    def print_to_excel_klub_aktywnosc(self):
+        db, cursor_object = self.data_base_connector()
+        zapytanie = f"SELECT ilosc_wejsc, miesiac, rok FROM statystyki_klubowe;"
+        cursor_object.execute(zapytanie)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        print(wyniki)
+
+        script_path = Path(__file__).parent.resolve()
+        path_dir = path.join(script_path, "Wydruki", "Aktywnosc_klubu")
+        lista_ilosc, lista_miesiac, lista_rok = [], [], []
+
+        for i in wyniki:
+            lista_ilosc.append(i[0])
+            lista_miesiac.append(i[1])
+            lista_rok.append(i[2])
+
+        try:
+            mkdir(path_dir)
+        except FileExistsError:
+            pass
+
+        df = pd.DataFrame({'ilość wejść': lista_ilosc,
+                           "Miesiąc": lista_miesiac,
+                           "Rok": lista_rok,
+                           })
+        writer = pd.ExcelWriter('Wydruki/Aktywnosc_klubu/aktywnosc_klubu.xlsx', engine='xlsxwriter')
+        df.to_excel(writer, sheet_name='Wydruk', index=False)
+
+        worksheet = writer.sheets['Wydruk']
+        format1 = writer.book.add_format({'align': "center"})
+
+        worksheet.set_column(0, 0, 15, format1)
+        worksheet.set_column(1, 1, 12, format1)
+        worksheet.set_column(2, 2, 10, format1)
+        # worksheet.set_column(3, 3, 15, format1)
+        # worksheet.set_column(4, 4, 8, format1)
+
+        writer.close()
+        system(rf"{path_dir}/aktywnosc_klubu.xlsx")
