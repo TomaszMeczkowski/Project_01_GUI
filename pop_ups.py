@@ -374,7 +374,7 @@ class PopUps(DataBase):
         # Tkinter z defaultu dodaje pasek na górze który wyłączamy przez tearoff
 
         print_out_menu = Menu(file_menu, tearoff=False)
-        print_out_menu.add_command(label="Plik tekstowy .txt", command="lambda: self.print_to_txt()")
+        print_out_menu.add_command(label="Plik tekstowy .txt", command=self.print_to_txt_klub_aktywnosc)
         print_out_menu.add_command(label="Arkusz kalkulacyjny .xlsx", command=self.print_to_excel_klub_aktywnosc)
 
         file_menu.add_command(label="Wykres", command=self.plot_klub)

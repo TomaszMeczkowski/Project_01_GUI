@@ -628,25 +628,23 @@ class DataBase:
         db.commit()
         db.close()
 
-        print(wyniki)
-
         script_path = Path(__file__).parent.resolve()
         path_dir = path.join(script_path, "Wydruki", "Aktywnosc_klubu")
-        lista_ilosc, lista_miesiac, lista_rok = [], [], []
+        ilosc, miesiac, rok = [], [], []
 
         for i in wyniki:
-            lista_ilosc.append(i[0])
-            lista_miesiac.append(i[1])
-            lista_rok.append(i[2])
+            ilosc.append(i[0])
+            miesiac.append(i[1])
+            rok.append(i[2])
 
         try:
             mkdir(path_dir)
         except FileExistsError:
             pass
 
-        df = pd.DataFrame({'ilość wejść': lista_ilosc,
-                           "Miesiąc": lista_miesiac,
-                           "Rok": lista_rok,
+        df = pd.DataFrame({'ilość wejść': ilosc,
+                           "Miesiąc": miesiac,
+                           "Rok": rok,
                            })
         writer = pd.ExcelWriter('Wydruki/Aktywnosc_klubu/aktywnosc_klubu.xlsx', engine='xlsxwriter')
         df.to_excel(writer, sheet_name='Wydruk', index=False)
@@ -657,8 +655,41 @@ class DataBase:
         worksheet.set_column(0, 0, 15, format1)
         worksheet.set_column(1, 1, 12, format1)
         worksheet.set_column(2, 2, 10, format1)
-        # worksheet.set_column(3, 3, 15, format1)
-        # worksheet.set_column(4, 4, 8, format1)
 
         writer.close()
         system(rf"{path_dir}/aktywnosc_klubu.xlsx")
+
+    def print_to_txt_klub_aktywnosc(self):
+
+        db, cursor_object = self.data_base_connector()
+        dane = f"SELECT ilosc_wejsc, miesiac, rok FROM statystyki_klubowe;"
+        cursor_object.execute(dane)
+        wyniki = cursor_object.fetchall()
+        db.commit()
+        db.close()
+
+        day, month, year = date_for_user()
+        hour, minutes = czas("hour"), czas("min")
+
+        script_path = Path(__file__).parent.resolve()
+        path_dir = path.join(script_path, "Wydruki", "Aktywnosc_klubu")
+
+        try:
+            mkdir(path_dir)
+        except FileExistsError:
+            pass
+
+        file = open("Wydruki/Aktywnosc_klubu/aktywnosc_klubu.txt", "w", encoding="UTF-8")
+        file.write(f"Data wydruku: {day} {month} {year}, "
+                   f"czas: {hour}:{minutes}  \n\n"
+                   f"\nilość wejść   miesiąc   rok\n\n")
+
+        for i in wyniki:
+            if i[1] == '':
+                file.write(f"{i[0]}.\n")
+            else:
+                file.write(f"{i[0]}, {i[1]}, {i[2]}\n")
+
+        file.close()
+
+        system(rf"{path_dir}/aktywnosc_klubu.txt")
