@@ -693,3 +693,47 @@ class DataBase:
         file.close()
 
         system(rf"{path_dir}/aktywnosc_klubu.txt")
+
+    def plot_aktywnosc_uzytkownika(self, user_id):
+
+        text, first_day = self.stat_entry_by_id(user_id)
+
+        try:
+            text[0][0]
+        except IndexError:
+            # print(f"{colored('Brak danych statystycznych klubu', 'red')}")
+            return False
+
+        ilosc_wejsc, daty = [], []
+
+        for i in text:
+            ilosc_wejsc.append(i[0])
+            daty.append(str(month_converter(i[1])) + "-" + str(i[2]))
+
+        x = np.array(daty)
+        y = np.array(ilosc_wejsc)
+
+        fig, ax = plt.subplots()
+        ax.plot(x, y, 'o-', linewidth=2.0)
+        ax.set(xlabel="Data [miesiąc-rok]", ylabel="Ilość wejść na sale", title=f"Aktywność użytownika")
+        fig.autofmt_xdate()
+
+        day, month, year = date_for_user()
+        fig.text(0.8, 0.02, f"Data wydruku: {day} {month} {year}", ha='center',
+                 fontweight='light', fontsize='x-small')
+        ax.grid()
+
+        script_path = Path(__file__).parent.resolve()
+        path_dir = path.join(script_path, "Wydruki", "Aktywnosc_uzytkownikow")
+
+        try:
+            makedirs(path_dir)
+        except FileExistsError:
+            pass
+
+        fig.savefig(rf"{path_dir}/aktywnosc_uzytkownika_id_{user_id}.png")
+
+        # print(f"\n{colored('Wykres został zapisany na dysku', 'green')}\n")
+        plt.show()
+
+        return True
