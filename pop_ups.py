@@ -440,6 +440,14 @@ class PopUps(DataBase):
         if not user_id:
             return self.label_wynik_aktywnosc_osoby.configure(text="Brak takiej osoby", text_color="red")
 
+        try:
+            text, first_day = self.stat_entry_by_id(user_id)
+        except TypeError:
+            return self.label_wynik_aktywnosc_osoby.configure(text="Brak danych", text_color="red")
+
+        if not text:
+            text = ["Brak Danych"]
+
         self.label_wynik_aktywnosc_osoby.configure(text="", text_color="black")
 
         message_app = tk.Toplevel()
@@ -450,9 +458,7 @@ class PopUps(DataBase):
         label = tk.Label(message_app, text="Aktywność osoby", bg="white", font=14)
         label.pack(side="top", pady=15)
 
-        text, first_day = self.stat_entry_by_id(user_id)  # Tutaj będziemy wprowadzać id osoby
-        if not text:
-            text = ["Brak Danych"]
+
 
         label = tk.Label(message_app, text=f"Pierwszy trening: {first_day}", bg="white", font=14)
         label.pack(side="top", pady=5)
