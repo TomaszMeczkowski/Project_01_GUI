@@ -1,5 +1,5 @@
 import tkinter as tk
-import basic_setup
+import basic_setup as bs
 from pop_ups import PopUps
 import customtkinter as ct
 from database import DataBaseTester
@@ -19,7 +19,7 @@ class App(PopUps):
         self.width_but, self.heigh_but, self.corner_rad = None, None, None
         self.menu_first_page, self.entry_box_user, self.entry_box_pass, self.label_info_bottom = None, None, None, None
         self.menu_logging_page, self.asterix_decision, self.password_show_button = None, None, None
-        self.icon_show, self.icon_hide = None, None
+        self.icon_show, self.icon_hide, self.but_bor_col, self.but_bor_width = None, None, None, None
 
     def db_setup(self):
         self.inicjowanie_bazy_danych()
@@ -27,19 +27,21 @@ class App(PopUps):
         self.auto_ticket_month_check()
 
     def basic_gui_setup(self):
-        self.title_main = basic_setup.title_main
-        self.foreground_color = basic_setup.foreground_color
-        self.windows_size = basic_setup.windows_size
+        self.title_main = bs.title_main
+        self.foreground_color = bs.foreground_color
+        self.windows_size = bs.windows_size
 
-        self.windows_width = basic_setup.windows_width
-        self.windows_height = basic_setup.windows_height
+        self.windows_width = bs.windows_width
+        self.windows_height = bs.windows_height
 
-        self.fg_col = basic_setup.buttons_fg_col
-        self.hov_col = basic_setup.buttons_hover_col
-        self.font = basic_setup.buttons_text_font
-        self.width_but = basic_setup.buttons_width
-        self.heigh_but = basic_setup.buttons_height
-        self.corner_rad = basic_setup.buttons_corner_rad
+        self.fg_col = bs.buttons_fg_col
+        self.hov_col = bs.buttons_hover_col
+        self.font = bs.buttons_text_font
+        self.width_but = bs.buttons_width
+        self.heigh_but = bs.buttons_height
+        self.corner_rad = bs.buttons_corner_rad
+        self.but_bor_width = bs.buttons_border_width
+        self.but_bor_col = bs.buttons_border_color
 
     def main_page(self, custom_enterance=None, user=None, password=None):
         self.main_window = ct.CTk()
@@ -176,7 +178,9 @@ class App(PopUps):
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
-                               text_font=self.font)
+                               text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button2 = ct.CTkButton(master_window,
                                text="2. Baza danych",
@@ -186,7 +190,9 @@ class App(PopUps):
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
-                               text_font=self.font)
+                               text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button3 = ct.CTkButton(master_window,
                                text="3. Statystyki",
@@ -196,7 +202,9 @@ class App(PopUps):
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
-                               text_font=self.font)
+                               text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button4 = ct.CTkButton(master_window,
                                text="6. Dev Tools",
@@ -206,7 +214,9 @@ class App(PopUps):
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
-                               text_font=self.font)
+                               text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button5 = ct.CTkButton(master_window,
                                text="Wyjście",
@@ -214,9 +224,11 @@ class App(PopUps):
                                height=40,
                                command=self.exit_button,
                                corner_radius=5,
-                               fg_color="#A81717",
+                               fg_color=self.fg_col,
                                hover_color="#DC4848",
-                               text_font=self.font)
+                               text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color="#DC4848")
 
         button1.pack(pady=5)
         button2.pack(pady=5)
@@ -233,7 +245,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=self.wydawanie_kluczyka_frame)
+                               command=self.wydawanie_kluczyka_frame,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button2 = ct.CTkButton(master_window,
                                text="2. Sprzedaj karnet",
@@ -243,7 +257,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tk.DISABLED)
+                               state=tk.DISABLED,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button3 = ct.CTkButton(master_window,
                                text="3. Sprawdź karnet",
@@ -253,7 +269,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=self.sprawdzanie_karnetu_frame)
+                               command=self.sprawdzanie_karnetu_frame,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button4 = ct.CTkButton(master_window,
                                text="4. id finder",
@@ -263,18 +281,22 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=lambda: self.id_finder_frame()
+                               command=lambda: self.id_finder_frame(),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
-                               width=self.width_but-50,
+                               width=self.width_but - 50,
                                height=self.heigh_but,
                                corner_radius=self.corner_rad,
                                command=lambda: self.frame_changer(opt1),
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
-                               text_font=self.font)
+                               text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button1.pack(pady=5)
         button2.pack(pady=5)
@@ -285,23 +307,33 @@ class App(PopUps):
     def buttons_data_base(self, master_window, opt1, opt2):
         button1 = ct.CTkButton(master_window, text="1. Dodaj nową osobę", width=250, height=40,
                                command=lambda: self.frame_changer(opt2), corner_radius=self.corner_rad,
-                               fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font)
+                               fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button2 = ct.CTkButton(master_window, text="2. Popraw dane osoby", width=250, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
-                               text_font=self.font, state=tk.DISABLED)
+                               text_font=self.font, state=tk.DISABLED,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button3 = ct.CTkButton(master_window, text="3. Lista osób", width=250, height=40,
                                command=lambda: self.list_of_people(), corner_radius=self.corner_rad,
-                               fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font)
+                               fg_color=self.fg_col, hover_color=self.hov_col, text_font=self.font,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button4 = ct.CTkButton(master_window, text="4. Usuń dane osoby", width=250, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
-                               text_font=self.font, state=tk.DISABLED)
+                               text_font=self.font, state=tk.DISABLED,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
-        button5 = ct.CTkButton(master_window, text="Powrót", width=250-50, height=40,
+        button5 = ct.CTkButton(master_window, text="Powrót", width=250 - 50, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
-                               text_font=self.font, command=lambda: self.frame_changer(opt1))
+                               text_font=self.font, command=lambda: self.frame_changer(opt1),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col)
 
         button1.pack(pady=5)
         button2.pack(pady=5)
@@ -388,7 +420,8 @@ class App(PopUps):
                                fg_color="#57E557",
                                hover_color="#7CFD7C",
                                text_font=self.font,
-                               command=self.wykonaj)
+                               command=self.wykonaj
+                               )
 
         button_return = ct.CTkButton(master_window,
                                      text="Powrót",
@@ -430,7 +463,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=lambda: self.dev_tool_osoby()
+                               command=lambda: self.dev_tool_osoby(),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button2 = ct.CTkButton(master_window,
@@ -441,7 +476,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=lambda: self.confirm_db_reset()
+                               command=lambda: self.confirm_db_reset(),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button3 = ct.CTkButton(master_window,
@@ -452,7 +489,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=lambda: self.dev_tool_statistics_01()
+                               command=lambda: self.dev_tool_statistics_01(),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button4 = ct.CTkButton(master_window,
@@ -463,18 +502,22 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=lambda: self.dev_tool_klub_stat()
+                               command=lambda: self.dev_tool_klub_stat(),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
-                               width=self.width_but-50,
+                               width=self.width_but - 50,
                                height=self.heigh_but,
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=lambda: self.frame_changer(opt1)
+                               command=lambda: self.frame_changer(opt1),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button1.pack(pady=5)
@@ -494,7 +537,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=self.aktywnosc_klubu_frame
+                               command=self.aktywnosc_klubu_frame,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button2 = ct.CTkButton(master_window,
@@ -505,7 +550,9 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=self.aktywnosc_osoby_parametry_frame
+                               command=self.aktywnosc_osoby_parametry_frame,
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         # button3 = ct.CTkButton(master_window,
@@ -532,13 +579,15 @@ class App(PopUps):
 
         button5 = ct.CTkButton(master_window,
                                text="Powrót",
-                               width=self.width_but-50,
+                               width=self.width_but - 50,
                                height=self.heigh_but,
                                corner_radius=self.corner_rad,
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               command=lambda: self.frame_changer(opt1)
+                               command=lambda: self.frame_changer(opt1),
+                               border_width=self.but_bor_width,
+                               border_color=self.but_bor_col
                                )
 
         button1.pack(pady=5)

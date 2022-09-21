@@ -458,8 +458,6 @@ class PopUps(DataBase):
         label = tk.Label(message_app, text="Aktywność osoby", bg="white", font=14)
         label.pack(side="top", pady=15)
 
-
-
         label = tk.Label(message_app, text=f"Pierwszy trening: {first_day}", bg="white", font=14)
         label.pack(side="top", pady=5)
 
