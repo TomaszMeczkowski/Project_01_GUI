@@ -4,6 +4,7 @@ import basic_setup as settings
 from database import DataBase
 from tkinter import Menu
 import customtkinter as ct
+import basic_setup as bs
 
 
 class PopUps(DataBase):
@@ -15,6 +16,12 @@ class PopUps(DataBase):
         self.label_wynik_wydawanie_kluczyka = None
         self.label_wynik_aktywnosc_osoby = None
 
+        self.btn_submit_fg_color = bs.buttons_zatwierdzenie_fg_color
+        self.btn_submit_hov_color = bs.buttons_zatwierdzenie_hover_color
+        self.btn_submit_bor_color = bs.buttons_zatwierdzenie_border_color
+        self.btn_submit_bor_width = bs.buttons_zatwierdzenie_border_width
+        self.btn_submit_corner_rad = bs.buttons_zatwierdzenie_corner_rad
+
     def confirm_adding_people(self, *args):
         imie = args[0]
         nazwisko = args[1]
@@ -25,10 +32,9 @@ class PopUps(DataBase):
         decision.title(settings.title_main)
         decision.geometry("300x280")
         decision.resizable(width=False, height=False)
-        decision.config(bg="#B0E0E6")
+        decision.config(bg="#F6FFFF")
 
         label1 = ct.CTkLabel(decision, width=200, height=100, corner_radius=5,
-                             fg_color="#E0FFFF",
                              text_font=("Bold", 14),
                              text=f"Przekazane Parametry"
                                   f"\n"
@@ -38,8 +44,8 @@ class PopUps(DataBase):
                                   f"\nBelki: {belki}")
         label1.place(x=50, y=20)
 
-        label2 = ct.CTkLabel(decision, text="Zatwierdzić", text_font=("Bold", 16), fg_color="#E0FFFF")
-        label2.place(x=85, y=160)
+        label2 = ct.CTkLabel(decision, text="Zatwierdzić ?", text_font=("Bold", 16))
+        label2.place(x=85, y=180)
 
         button1 = ct.CTkButton(decision,
                                command=lambda: [decision.destroy(),
@@ -191,8 +197,13 @@ class PopUps(DataBase):
         entry_box_nazwisko_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                                    corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        button_szukaj = ct.CTkButton(decision, text="Szukaj", fg_color="#2CEFE8", corner_radius=5,
-                                     hover_color="#99FDFA",
+        button_szukaj = ct.CTkButton(decision,
+                                     text="Szukaj",
+                                     fg_color=self.btn_submit_fg_color,
+                                     corner_radius=self.btn_submit_corner_rad,
+                                     border_width=self.btn_submit_bor_width,
+                                     border_color=self.btn_submit_bor_color,
+                                     hover_color=self.btn_submit_hov_color,
                                      command=lambda: self.id_finder_operation(entry_box_imie_id_finder.get(),
                                                                               entry_box_nazwisko_id_finder.get()))
 
@@ -237,8 +248,13 @@ class PopUps(DataBase):
         entry_box_nazwisko_spr_karnetu = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                                      corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        button_szukaj = ct.CTkButton(decision, text="Sprawdź", fg_color="#2CEFE8", corner_radius=5,
-                                     hover_color="#99FDFA",
+        button_szukaj = ct.CTkButton(decision,
+                                     text="Sprawdź",
+                                     fg_color=self.btn_submit_fg_color,
+                                     corner_radius=self.btn_submit_corner_rad,
+                                     border_width=self.btn_submit_bor_width,
+                                     border_color=self.btn_submit_bor_color,
+                                     hover_color=self.btn_submit_hov_color,
                                      command=lambda: self.spr_karnet_operation(entry_box_imie_spr_karnetu.get(),
                                                                                entry_box_nazwisko_spr_karnetu.get()
                                                                                )
@@ -297,8 +313,13 @@ class PopUps(DataBase):
         entry_box_nazwisko_wydawanie_kluczyka = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                                             corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        button_szukaj = ct.CTkButton(decision, text="Wydawanie kluczyka", fg_color="#2CEFE8", corner_radius=5,
-                                     hover_color="#99FDFA",
+        button_szukaj = ct.CTkButton(decision,
+                                     text="Wydawanie kluczyka",
+                                     fg_color=self.btn_submit_fg_color,
+                                     corner_radius=self.btn_submit_corner_rad,
+                                     border_width=self.btn_submit_bor_width,
+                                     border_color=self.btn_submit_bor_color,
+                                     hover_color=self.btn_submit_hov_color,
                                      command=lambda: self.wydawanie_kluczyka_operacja(
                                          entry_box_imie_wydawanie_kluczyka.get(),
                                          entry_box_nazwisko_wydawanie_kluczyka.get()
@@ -412,8 +433,13 @@ class PopUps(DataBase):
         entry_box_nazwisko_wydawanie_kluczyka = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                                             corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        button_szukaj = ct.CTkButton(decision, text="Zatwierdź", fg_color="#2CEFE8", corner_radius=5,
-                                     hover_color="#99FDFA",
+        button_szukaj = ct.CTkButton(decision,
+                                     text="Zatwierdź",
+                                     fg_color=self.btn_submit_fg_color,
+                                     corner_radius=self.btn_submit_corner_rad,
+                                     border_width=self.btn_submit_bor_width,
+                                     border_color=self.btn_submit_bor_color,
+                                     hover_color=self.btn_submit_hov_color,
                                      command=lambda: self.aktywnosc_osoby_frame(
                                          entry_box_imie_wydawanie_kluczyka.get(),
                                          entry_box_nazwisko_wydawanie_kluczyka.get()

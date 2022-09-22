@@ -13,3 +13,11 @@ buttons_height = 40
 buttons_corner_rad = 5
 buttons_border_width = 4
 buttons_border_color = buttons_hover_col
+
+buttons_zatwierdzenie_fg_color = "#EFFFFF"
+buttons_zatwierdzenie_hover_color = "#2CEFE8"  # Jasny niebieski
+buttons_zatwierdzenie_border_color = buttons_zatwierdzenie_hover_color
+buttons_zatwierdzenie_width = 250
+buttons_zatwierdzenie_height = 40
+buttons_zatwierdzenie_corner_rad = 5
+buttons_zatwierdzenie_border_width = 4

@@ -342,12 +342,8 @@ class App(PopUps):
         button5.pack(pady=50)
 
     def menu_adding_person(self, master_window, opt1):
-        label_imie = ct.CTkLabel(master_window,
-                                 text="Imię:",
-                                 width=80,
-                                 height=30,
-                                 text_font=self.font)
-
+        label_info = ct.CTkLabel(master_window, text="Dodawanie nowej osoby", text_font=("Bold", 16))
+        label_imie = ct.CTkLabel(master_window, text="Imię:")
         self.entry_box_imie = ct.CTkEntry(master_window,
                                           width=140,
                                           height=30,
@@ -356,11 +352,7 @@ class App(PopUps):
                                           border_color="#26B9EF",
                                           border_width=2)
 
-        label_nazwisko = ct.CTkLabel(master_window,
-                                     text="Nazwisko:",
-                                     width=80,
-                                     height=30,
-                                     text_font=self.font)
+        label_nazwisko = ct.CTkLabel(master_window, text="Nazwisko:")
 
         self.entry_box_nazwisko = ct.CTkEntry(master_window,
                                               width=140,
@@ -371,11 +363,8 @@ class App(PopUps):
                                               border_width=2)
 
         pasy = ["Czarny", "Brązowy", "Purpurowy", "Niebieski", "Biały"]
-        label_pas = ct.CTkLabel(master_window,
-                                text="Pas:",
-                                width=80,
-                                height=30,
-                                text_font=self.font)
+
+        label_pas = ct.CTkLabel(master_window, text="Pas:")
 
         self.cbox_pasy = ct.CTkComboBox(master_window,
                                         values=pasy,
@@ -392,11 +381,8 @@ class App(PopUps):
         self.cbox_pasy.set(pasy[-1])
 
         belki = ["0", "1", "2", "3", "4"]
-        label_belki = ct.CTkLabel(master_window,
-                                  text="Belki:",
-                                  width=80,
-                                  height=30,
-                                  text_font=self.font)
+
+        label_belki = ct.CTkLabel(master_window, text="Belki:")
 
         self.cbox_belki = ct.CTkComboBox(master_window,
                                          values=belki,
@@ -412,38 +398,37 @@ class App(PopUps):
                                          )
         self.cbox_belki.set(belki[0])
 
-        button1 = ct.CTkButton(master_window,
-                               text="Wykonaj",
-                               width=120,
-                               height=40,
-                               corner_radius=5,
-                               fg_color="#57E557",
-                               hover_color="#7CFD7C",
-                               text_font=self.font,
-                               command=self.wykonaj
-                               )
+        button_wykonaj = ct.CTkButton(master_window,
+                                      text="Wykonaj",
+                                      fg_color=self.btn_submit_fg_color,
+                                      corner_radius=self.btn_submit_corner_rad,
+                                      border_width=self.btn_submit_bor_width,
+                                      border_color=self.btn_submit_bor_color,
+                                      hover_color=self.btn_submit_hov_color,
+                                      command=self.wykonaj
+                                      )
 
         button_return = ct.CTkButton(master_window,
                                      text="Powrót",
-                                     width=120,
-                                     height=40,
                                      corner_radius=5,
-                                     fg_color="#DF6E6E",
+                                     fg_color="white",
                                      hover_color="#FC8383",
-                                     text_font=self.font,
+                                     border_width=self.btn_submit_bor_width,
+                                     border_color="#FC8383",
                                      command=lambda: self.frame_changer(opt1)
                                      )
 
-        label_imie.grid(column=0, row=0)
-        self.entry_box_imie.grid(column=1, row=0, pady=5)
-        label_nazwisko.grid(column=0, row=1)
-        self.entry_box_nazwisko.grid(column=1, row=1, pady=5)
-        label_pas.grid(column=0, row=2)
-        self.cbox_pasy.grid(column=1, row=2, pady=5, padx=5)
-        label_belki.grid(column=0, row=3)
-        self.cbox_belki.grid(column=1, row=3, pady=5, padx=5)
-        button1.grid(column=1, row=4, pady=5)
-        button_return.grid(column=1, row=5, pady=25)
+        label_info.pack()
+        label_imie.pack()
+        self.entry_box_imie.pack()
+        label_nazwisko.pack()
+        self.entry_box_nazwisko.pack()
+        label_pas.pack()
+        self.cbox_pasy.pack()
+        label_belki.pack()
+        self.cbox_belki.pack()
+        button_wykonaj.pack(side="left", padx=70)
+        button_return.pack(side="left", padx=5)
 
     def wykonaj(self):
         # Przekazywanie parametrów
