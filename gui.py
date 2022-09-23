@@ -257,7 +257,7 @@ class App(PopUps):
                                fg_color=self.fg_col,
                                hover_color=self.hov_col,
                                text_font=self.font,
-                               state=tk.DISABLED,
+                               command=self.sell_karnety,
                                border_width=self.but_bor_width,
                                border_color=self.but_bor_col)
 
