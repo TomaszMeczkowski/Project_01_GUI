@@ -564,11 +564,8 @@ class PopUps(DataBase):
                                        border_width=self.btn_submit_bor_width,
                                        border_color=self.btn_submit_bor_color,
                                        hover_color=self.btn_submit_hov_color,
-                                       command=(lambda: self.sell_karnety_2(entry_box_imie_sell.get(),
-                                                                            entry_box_nazwisko_sell.get()
-                                                                            )
-                                                )
-                                       )
+                                       command=lambda: self.sell_karnety_operacja(decision, entry_box_imie_sell.get(),
+                                                                                  entry_box_nazwisko_sell.get()))
 
         self.label_wynik_sell = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
 
@@ -583,6 +580,18 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
+    def sell_karnety_operacja(self, frame, imie, nazwisko):
+        imie = imie
+        nazwisko = nazwisko
+
+        if self.id_finder(imie, nazwisko):
+            frame.withdraw()
+            self.sell_karnety_2(imie, nazwisko)
+            return True
+        else:
+            self.label_wynik_sell.configure(text="Brak takiej osoby", text_color="red")
+            return False
+
     def sell_karnety_2(self, imie, nazwisko):
 
         imie = imie
@@ -595,6 +604,9 @@ class PopUps(DataBase):
         decision.config(bg="white")
 
         label_info = ct.CTkLabel(decision, text="Sprzedaż karnetów 2", text_font=("Bold", 16))
+
+        # Typ Karnet, Płeć itd 
+
         # label_imie = ct.CTkLabel(decision, text="Imię")
         #
         # entry_box_imie_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
