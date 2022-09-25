@@ -754,8 +754,30 @@ class PopUps(DataBase):
         # oraz powrót do głównego menu
 
         frame.withdraw()  # Zamknicie okna sprzedaży
+        self.sell_karnety_4()
 
+    def sell_karnety_4(self):
 
+        decision = tk.Toplevel()
+        decision.title(settings.title_main)
+        decision.geometry("200x200")
+        decision.resizable(width=False, height=False)
+        decision.config(bg="white")
 
+        label_info = ct.CTkLabel(decision, text="Karnet Sprzedany !", text_font=("Bold", 16))
 
+        button_choice = ct.CTkButton(decision,
+                                     text="Dalej",
+                                     fg_color=self.btn_submit_fg_color,
+                                     corner_radius=self.btn_submit_corner_rad,
+                                     border_width=self.btn_submit_bor_width,
+                                     border_color=self.btn_submit_bor_color,
+                                     hover_color=self.btn_submit_hov_color,
+                                     command=lambda: decision.withdraw()
+                                     )
 
+        label_info.pack(side="top", pady=15)
+        button_choice.pack(side="top", pady=25)
+
+        decision.tkraise()
+        decision.mainloop()

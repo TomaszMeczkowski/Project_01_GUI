@@ -188,14 +188,6 @@ class DataBase:
             osoba = [imie, nazwisko, pas, belki]
             osoby.append(osoba)
 
-        # osoby = [
-        #     ["Tomek", "Męczkowski", "Purpurowy", 2],
-        #     ["Olga", "Zabulewicz", "Purpurowy", 2],
-        #     ["Alicja", "Kardas", "Niebieski", 3],
-        #     ["Ola", "Warczak", "Purpurowy", 3],
-        #     ["Jacek", "Sasin", "Niebieski", 2]
-        #     ]
-
         for i in range(0, len(osoby)):
             self.dodawanie_osob(osoby[i][0], osoby[i][1], osoby[i][2], osoby[i][3])
 
