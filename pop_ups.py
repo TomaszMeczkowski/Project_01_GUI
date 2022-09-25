@@ -557,15 +557,15 @@ class PopUps(DataBase):
         entry_box_nazwisko_sell = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                               corner_radius=2, border_color="#26B9EF", border_width=2)
 
-        button_sprzedaj = ct.CTkButton(decision,
-                                       text="Dalej",
-                                       fg_color=self.btn_submit_fg_color,
-                                       corner_radius=self.btn_submit_corner_rad,
-                                       border_width=self.btn_submit_bor_width,
-                                       border_color=self.btn_submit_bor_color,
-                                       hover_color=self.btn_submit_hov_color,
-                                       command=lambda: self.sell_karnety_operacja(decision, entry_box_imie_sell.get(),
-                                                                                  entry_box_nazwisko_sell.get()))
+        button_submit = ct.CTkButton(decision,
+                                     text="Dalej",
+                                     fg_color=self.btn_submit_fg_color,
+                                     corner_radius=self.btn_submit_corner_rad,
+                                     border_width=self.btn_submit_bor_width,
+                                     border_color=self.btn_submit_bor_color,
+                                     hover_color=self.btn_submit_hov_color,
+                                     command=lambda: self.sell_karnety_operacja(decision, entry_box_imie_sell.get(),
+                                                                                entry_box_nazwisko_sell.get()))
 
         self.label_wynik_sell = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
 
@@ -574,7 +574,7 @@ class PopUps(DataBase):
         entry_box_imie_sell.pack(side="top")
         label_nazwisko.pack(side="top")
         entry_box_nazwisko_sell.pack(side="top")
-        button_sprzedaj.pack(side="top", pady=25)
+        button_submit.pack(side="top", pady=25)
         self.label_wynik_sell.pack(side="top", pady=25)
 
         decision.tkraise()
@@ -603,41 +603,112 @@ class PopUps(DataBase):
         decision.resizable(width=False, height=False)
         decision.config(bg="white")
 
-        label_info = ct.CTkLabel(decision, text="Sprzedaż karnetów 2", text_font=("Bold", 16))
+        label_info = ct.CTkLabel(decision, text="Płeć", text_font=("Bold", 16))
 
-        # Typ Karnet, Płeć itd 
+        sex = ["Mężczyzna", "Kobieta"]
 
-        # label_imie = ct.CTkLabel(decision, text="Imię")
-        #
-        # entry_box_imie_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-        #                                        corner_radius=2, border_color="#26B9EF", border_width=2)
-        #
-        # label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
-        #
-        # entry_box_nazwisko_id_finder = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
-        #                                            corner_radius=2, border_color="#26B9EF", border_width=2)
-        #
-        # button_sprzedaj = ct.CTkButton(decision,
-        #                                text="Dalej",
-        #                                fg_color=self.btn_submit_fg_color,
-        #                                corner_radius=self.btn_submit_corner_rad,
-        #                                border_width=self.btn_submit_bor_width,
-        #                                border_color=self.btn_submit_bor_color,
-        #                                hover_color=self.btn_submit_hov_color,
-        #                                command=lambda: self.id_finder_operation(entry_box_imie_id_finder.get(),
-        #                                                                         entry_box_nazwisko_id_finder.get()
-        #                                                                         )
-        #                                )
-        #
-        # self.label_wynik = ct.CTkLabel(decision, text="", text_font=("Bold", 14))
+        label_sex = ct.CTkLabel(decision, text="Płeć:")
+
+        cbox_sex = ct.CTkComboBox(decision,
+                                  values=sex,
+                                  state="readonly",
+                                  width=140,
+                                  height=30,
+                                  fg_color="#F9F9F9",
+                                  dropdown_color="#F9F9F9",
+                                  corner_radius=5,
+                                  button_color="#26B9EF",
+                                  border_width=2,
+                                  border_color="#26B9EF"
+                                  )
+        cbox_sex.set(sex[0])
+
+        button_wybierz = ct.CTkButton(decision,
+                                      text="Dalej",
+                                      fg_color=self.btn_submit_fg_color,
+                                      corner_radius=self.btn_submit_corner_rad,
+                                      border_width=self.btn_submit_bor_width,
+                                      border_color=self.btn_submit_bor_color,
+                                      hover_color=self.btn_submit_hov_color,
+                                      command=lambda: self.sell_karnety_operacja_2(decision, imie, nazwisko,
+                                                                                   cbox_sex.get())
+                                      )
+
+        # Dodać przycisk do cofania
+        # Dodać powyżej dane imie, naziwsko które zostały podane wcześniej albo podsumować na końcu
 
         label_info.pack(side="top", pady=15)
-        # label_imie.pack(side="top")
-        # entry_box_imie_id_finder.pack(side="top")
-        # label_nazwisko.pack(side="top")
-        # entry_box_nazwisko_id_finder.pack(side="top")
-        # button_sprzedaj.pack(side="top", pady=25)
-        # self.label_wynik.pack(side="top", pady=25)
+        label_sex.pack(side="top")
+        cbox_sex.pack(side="top")
+        button_wybierz.pack(side="top", pady=25)
 
         decision.tkraise()
         decision.mainloop()
+
+    def sell_karnety_operacja_2(self, frame, imie, nazwisko, plec=None, back=False):
+        imie = imie
+        nazwisko = nazwisko
+        plec = plec
+
+        if back and plec is None:
+            frame.withdraw()
+            self.sell_karnety()
+        else:
+            frame.withdraw()
+            self.sell_karnety_3(imie, nazwisko, plec)
+
+    def sell_karnety_3(self, imie, nazwisko, plec):
+
+        imie = imie
+        nazwisko = nazwisko
+        plec = plec
+
+        decision = tk.Toplevel()
+        decision.title(settings.title_main)
+        decision.geometry("400x400")
+        decision.resizable(width=False, height=False)
+        decision.config(bg="white")
+
+        label_info = ct.CTkLabel(decision, text="Typ Karnetu", text_font=("Bold", 16))
+
+        sex = ["Mężczyzna", "Kobieta"]
+
+        label_sex = ct.CTkLabel(decision, text="Typy karnetów..... etap nr 3:")
+
+        cbox_sex = ct.CTkComboBox(decision,
+                                  values=sex,
+                                  state="readonly",
+                                  width=140,
+                                  height=30,
+                                  fg_color="#F9F9F9",
+                                  dropdown_color="#F9F9F9",
+                                  corner_radius=5,
+                                  button_color="#26B9EF",
+                                  border_width=2,
+                                  border_color="#26B9EF"
+                                  )
+        cbox_sex.set(sex[0])
+
+        button_wybierz = ct.CTkButton(decision,
+                                      text="Dalej",
+                                      fg_color=self.btn_submit_fg_color,
+                                      corner_radius=self.btn_submit_corner_rad,
+                                      border_width=self.btn_submit_bor_width,
+                                      border_color=self.btn_submit_bor_color,
+                                      hover_color=self.btn_submit_hov_color,
+                                      command=lambda: self.sell_karnety_operacja_2(decision, imie, nazwisko,
+                                                                                   cbox_sex.get())
+                                      )
+
+        # Dodać przycisk do cofania
+        # Dodać powyżej dane imie, naziwsko które zostały podane wcześniej albo podsumować na końcu
+
+        label_info.pack(side="top", pady=15)
+        label_sex.pack(side="top")
+        cbox_sex.pack(side="top")
+        button_wybierz.pack(side="top", pady=25)
+
+        decision.tkraise()
+        decision.mainloop()
+
+
