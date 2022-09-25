@@ -163,7 +163,10 @@ class DataBase:
 
         return lista
 
-    def ticket_sell(self, id_osoby, active, month, typ, amount, plec):
+    def ticket_sell(self, id_osoby, typ, amount, plec):
+        active = True
+        month = month_converter(czas("month"))
+
         db, cursor_object = self.data_base_connector()
         zapytanie = f"UPDATE klub_zt.karnety SET aktywny_karnet = {active}, miesiac = '{month}', " \
                     f"typ_karnetu = '{typ}', dostepne_treningi_ogolnie = '{amount}'," \

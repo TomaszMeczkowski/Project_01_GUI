@@ -671,23 +671,53 @@ class PopUps(DataBase):
 
         label_info = ct.CTkLabel(decision, text="Typ Karnetu", text_font=("Bold", 16))
 
-        sex = ["Mężczyzna", "Kobieta"]
+        karnety_men = {"1 Wejście": [1, "30zł"],
+                       "4 Wejścia": [4, "100zł"],
+                       "8 Wejść": [8, "140zł"],
+                       "15 Wejść": [15, "160zł"],
+                       "Dzieci 4-7 lat": [999, "120zł"],
+                       "Dzieci 8-15 lat": [999, "130zł"],
+                       "Open": [999, "220zł"]}
 
-        label_sex = ct.CTkLabel(decision, text="Typy karnetów..... etap nr 3:")
+        karnety_women = {"1 Wejście": [1, "30zł"],
+                         "4 Wejścia": [4, "100zł"],
+                         "8 Wejść": [8, "120zł"],
+                         "15 Wejść": [15, "140zł"],
+                         "Dzieci 4-7 lat": [999, "120zł"],
+                         "Dzieci 8-15 lat": [999, "130zł"],
+                         "Open": [999, "200zł"]}
 
-        cbox_sex = ct.CTkComboBox(decision,
-                                  values=sex,
-                                  state="readonly",
-                                  width=140,
-                                  height=30,
-                                  fg_color="#F9F9F9",
-                                  dropdown_color="#F9F9F9",
-                                  corner_radius=5,
-                                  button_color="#26B9EF",
-                                  border_width=2,
-                                  border_color="#26B9EF"
-                                  )
-        cbox_sex.set(sex[0])
+        label_karnety = ct.CTkLabel(decision, text="Typy karnetów..... etap nr 3:")
+
+        if plec == "Mężczyzna":
+            karnet = karnety_men
+        else:
+            karnet = karnety_women
+
+        karnet_output = list(karnet.keys())
+
+        ceny = list(karnet.values())
+        ceny_output = []
+        for i in ceny:
+            ceny_output.append(i[1])
+
+        karnet_options = []
+        for i in range(len(karnet_output)):
+            karnet_options.append(karnet_output[i] + " - " + ceny_output[i])
+
+        cbox_karnet = ct.CTkComboBox(decision,
+                                     values=karnet_options,
+                                     state="readonly",
+                                     width=160,
+                                     height=30,
+                                     fg_color="#F9F9F9",
+                                     dropdown_color="#F9F9F9",
+                                     corner_radius=5,
+                                     button_color="#26B9EF",
+                                     border_width=2,
+                                     border_color="#26B9EF"
+                                     )
+        cbox_karnet.set(karnet_options[0])
 
         button_wybierz = ct.CTkButton(decision,
                                       text="Dalej",
@@ -696,19 +726,36 @@ class PopUps(DataBase):
                                       border_width=self.btn_submit_bor_width,
                                       border_color=self.btn_submit_bor_color,
                                       hover_color=self.btn_submit_hov_color,
-                                      command=lambda: self.sell_karnety_operacja_2(decision, imie, nazwisko,
-                                                                                   cbox_sex.get())
+                                      command=lambda: self.sell_karnety_operacja_3(decision, imie, nazwisko, plec,
+                                                                                   cbox_karnet.get(), karnet
+                                                                                   )
                                       )
 
         # Dodać przycisk do cofania
         # Dodać powyżej dane imie, naziwsko które zostały podane wcześniej albo podsumować na końcu
 
         label_info.pack(side="top", pady=15)
-        label_sex.pack(side="top")
-        cbox_sex.pack(side="top")
+        label_karnety.pack(side="top")
+        cbox_karnet.pack(side="top")
         button_wybierz.pack(side="top", pady=25)
 
         decision.tkraise()
         decision.mainloop()
+
+    def sell_karnety_operacja_3(self, frame, imie, nazwisko, plec, wybor, karnety, back=False):
+        user_id = self.id_finder(imie, nazwisko)
+        typ = wybor.split("-")[0].strip()
+        amount = karnety.get(typ)[0]
+
+        # Działa
+        self.ticket_sell(user_id, typ, amount, plec)
+
+        # Dodać jakieś ostrzeżenie czy zatwierdasz dane + powiadomienie że wszystko się udało
+        # oraz powrót do głównego menu
+
+        frame.withdraw()  # Zamknicie okna sprzedaży
+
+
+
 
 
