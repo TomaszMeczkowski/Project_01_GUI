@@ -5,7 +5,7 @@ from database import DataBase
 from tkinter import Menu
 import customtkinter as ct
 import basic_setup as bs
-from PIL import Image, ImageTk
+# from PIL import Image, ImageTk
 
 
 class PopUps(DataBase):
@@ -17,6 +17,7 @@ class PopUps(DataBase):
         self.label_wynik_wydawanie_kluczyka = None
         self.label_wynik_aktywnosc_osoby = None
         self.label_wynik_sell = None
+        self.label_remove_result = None
 
         self.btn_submit_fg_color = bs.buttons_zatwierdzenie_fg_color
         self.btn_submit_hov_color = bs.buttons_zatwierdzenie_hover_color
@@ -30,11 +31,7 @@ class PopUps(DataBase):
         pas = args[2]
         belki = args[3]
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("300x280")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="#F6FFFF")
+        decision = self.window_maker(size="300x280", bg="#F6FFFF")
 
         label1 = ct.CTkLabel(decision, width=200, height=100, corner_radius=5,
                              text_font=("Bold", 14),
@@ -74,15 +71,11 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
-    def error_info(self, mess="", size="450x100", off=False):
+    def error_info(self, mess="", off=False):
         if off:
             return None
 
-        message_app = tk.Toplevel()
-        message_app.title(settings.title_main)
-        message_app.geometry(size)
-        message_app.resizable(width=False, height=False)
-        message_app.config(bg="grey")
+        message_app = self.window_maker(size="450x100", bg="grey")
 
         label = tk.Label(message_app, text=mess, fg="red", font=('Helvetica', 12, 'bold'))
         label.pack(pady=5)
@@ -97,11 +90,7 @@ class PopUps(DataBase):
 
     def confirm_db_reset(self):
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("270x150")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="grey")
+        decision = self.window_maker(size="270x150", bg="grey")
 
         label2 = tk.Label(decision, text=f"\nChcesz zresetować baze danych?"
                                          f"\n(Wszystkie dane zostaną utracone)",
@@ -120,13 +109,9 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
-    def list_of_people(self, size="480x530"):
+    def list_of_people(self):
 
-        message_app = tk.Toplevel()
-        message_app.title(settings.title_main)
-        message_app.geometry(size)
-        message_app.resizable(width=False, height=False)
-        message_app.config(bg="white")
+        message_app = self.window_maker(size="480x530")
         label = tk.Label(message_app, text="Lista osoób trenujących", bg="white", font=14)
         label.pack(side="top", pady=15)
 
@@ -182,11 +167,7 @@ class PopUps(DataBase):
 
     def id_finder_frame(self):
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("400x400")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker()
 
         label_info = ct.CTkLabel(decision, text="Id finder", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
@@ -233,11 +214,7 @@ class PopUps(DataBase):
 
     def sprawdzanie_karnetu_frame(self):
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("400x400")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker()
 
         label_info = ct.CTkLabel(decision, text="Sprawdzanie karnetu", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
@@ -298,11 +275,7 @@ class PopUps(DataBase):
 
     def wydawanie_kluczyka_frame(self):
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("400x400")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker()
 
         label_info = ct.CTkLabel(decision, text="Wydawanie kluczyka", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
@@ -353,13 +326,9 @@ class PopUps(DataBase):
             return self.label_wynik_wydawanie_kluczyka.configure(text="Nie można wydać kluczyka \nKarnet wykorzystany",
                                                                  text_color="red")
 
-    def aktywnosc_klubu_frame(self, size="380x400"):
+    def aktywnosc_klubu_frame(self):
 
-        message_app = tk.Toplevel()
-        message_app.title(settings.title_main)
-        message_app.geometry(size)
-        message_app.resizable(width=False, height=False)
-        message_app.config(bg="white")
+        message_app = self.window_maker(size="380x400")
         label = tk.Label(message_app, text="Aktywność klubu", bg="white", font=14)
         label.pack(side="top", pady=15)
 
@@ -418,11 +387,7 @@ class PopUps(DataBase):
         message_app.mainloop()
 
     def aktywnosc_osoby_parametry_frame(self):
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("400x400")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker()
 
         label_info = ct.CTkLabel(decision, text="Aktywność użytkownika", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
@@ -461,7 +426,7 @@ class PopUps(DataBase):
         decision.tkraise()
         decision.mainloop()
 
-    def aktywnosc_osoby_frame(self, imie, nazwisko, size="380x400"):
+    def aktywnosc_osoby_frame(self, imie, nazwisko):
 
         user_id = self.id_finder(imie, nazwisko)
 
@@ -478,11 +443,7 @@ class PopUps(DataBase):
 
         self.label_wynik_aktywnosc_osoby.configure(text="", text_color="black")
 
-        message_app = tk.Toplevel()
-        message_app.title(settings.title_main)
-        message_app.geometry(size)
-        message_app.resizable(width=False, height=False)
-        message_app.config(bg="white")
+        message_app = self.window_maker(size="380x400")
         label = tk.Label(message_app, text="Aktywność osoby", bg="white", font=14)
         label.pack(side="top", pady=15)
 
@@ -541,11 +502,7 @@ class PopUps(DataBase):
 
     def sell_karnety(self):
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("400x400")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker()
 
         label_info = ct.CTkLabel(decision, text="Sprzedaż karnetów", text_font=("Bold", 16))
         label_imie = ct.CTkLabel(decision, text="Imię")
@@ -598,11 +555,7 @@ class PopUps(DataBase):
         imie = imie
         nazwisko = nazwisko
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("400x400")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker()
 
         label_info = ct.CTkLabel(decision, text="Wybierz płeć", text_font=("Bold", 16))
 
@@ -665,11 +618,7 @@ class PopUps(DataBase):
         nazwisko = nazwisko
         plec = plec
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("400x400")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker()
 
         label_info = ct.CTkLabel(decision, text="Wybierz typ karnetu", text_font=("Bold", 16))
 
@@ -762,11 +711,7 @@ class PopUps(DataBase):
 
     def sell_karnety_4(self):
 
-        decision = tk.Toplevel()
-        decision.title(settings.title_main)
-        decision.geometry("200x200")
-        decision.resizable(width=False, height=False)
-        decision.config(bg="white")
+        decision = self.window_maker(size="200x200")
 
         label_info = ct.CTkLabel(decision, text="Karnet Sprzedany !", text_font=("Bold", 16))
 
@@ -785,3 +730,63 @@ class PopUps(DataBase):
 
         decision.tkraise()
         decision.mainloop()
+
+    def window_maker(self, size="400x400", title=settings.title_main, resizable=False, bg="white"):
+        window = tk.Toplevel()
+        window.title(title)
+        window.geometry(size)
+        window.resizable(width=resizable, height=resizable)
+        window.config(bg=bg)
+
+        return window
+
+    def person_remove(self):
+
+        decision = self.window_maker()
+
+        label_info = ct.CTkLabel(decision, text="Usuwanie Danych", text_font=("Bold", 16))
+
+        label_info_2 = ct.CTkLabel(decision, text="Usunięcie spowoduje zwolnienie id")
+
+        label_imie = ct.CTkLabel(decision, text="Imię")
+
+        entry_box_imie_sell = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                          corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
+
+        entry_box_nazwisko_sell = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+                                              corner_radius=2, border_color="#26B9EF", border_width=2)
+
+        # Zmienić kolory (np. na czerwony)
+        button_wybierz = ct.CTkButton(decision,
+                                      text="Usuń",
+                                      fg_color=self.btn_submit_fg_color,
+                                      corner_radius=self.btn_submit_corner_rad,
+                                      border_width=self.btn_submit_bor_width,
+                                      border_color=self.btn_submit_bor_color,
+                                      hover_color=self.btn_submit_hov_color,
+                                      command=lambda: self.remove_operation()
+                                      )
+
+        self.label_remove_result = ct.CTkLabel(decision, text="")
+
+        label_info.pack(side="top", pady=15)
+        label_info_2.pack(side="top", pady=10)
+        label_imie.pack(side="top")
+        entry_box_imie_sell.pack(side="top")
+        label_nazwisko.pack(side="top")
+        entry_box_nazwisko_sell.pack(side="top")
+        button_wybierz.pack(side="top", pady=25)
+        self.label_remove_result.pack(side="top")
+
+        decision.tkraise()
+        decision.mainloop()
+
+    def remove_operation(self):
+        pass
+        # Tutaj Sprawdzamy czy taka osoba jest w bazie + zwracamy informacje czy udało się
+        # usunąc dane tej osoby (zwolnić id) czy też takiej osoby już tam nie ma
+
+
+        # frame.withdraw()  # Zamknicie okna sprzedaży

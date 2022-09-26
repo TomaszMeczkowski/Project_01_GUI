@@ -327,9 +327,10 @@ class App(PopUps):
 
         button4 = ct.CTkButton(master_window, text="4. Usuń dane osoby", width=250, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
-                               text_font=self.font, state=tk.DISABLED,
+                               text_font=self.font,
                                border_width=self.but_bor_width,
-                               border_color=self.but_bor_col)
+                               border_color=self.but_bor_col,
+                               command=lambda: self.person_remove())
 
         button5 = ct.CTkButton(master_window, text="Powrót", width=250 - 50, height=40,
                                corner_radius=self.corner_rad, fg_color=self.fg_col, hover_color=self.hov_col,
