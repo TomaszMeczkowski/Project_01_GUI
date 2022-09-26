@@ -49,6 +49,8 @@ class App(PopUps):
         self.main_window.title(self.title_main)
         self.main_window.geometry(self.windows_size)
         self.main_window.resizable(width=False, height=False)
+        main_logo = ImageTk.PhotoImage(Image.open("./icons/logo.png").resize((30, 30), Image.ANTIALIAS))
+        self.main_window.iconphoto(False, main_logo)
         # self.main_window.resizable(width=True, height=True)
 
         self.menu_logging_page = self.frame_maker()

@@ -5,6 +5,7 @@ from database import DataBase
 from tkinter import Menu
 import customtkinter as ct
 import basic_setup as bs
+from PIL import Image, ImageTk
 
 
 class PopUps(DataBase):
@@ -603,11 +604,12 @@ class PopUps(DataBase):
         decision.resizable(width=False, height=False)
         decision.config(bg="white")
 
-        label_info = ct.CTkLabel(decision, text="Płeć", text_font=("Bold", 16))
+        label_info = ct.CTkLabel(decision, text="Wybierz płeć", text_font=("Bold", 16))
+
+        label_info_2 = ct.CTkLabel(decision, text=f"Imię: {imie}"
+                                                  f"\nNazwisko: {nazwisko}")
 
         sex = ["Mężczyzna", "Kobieta"]
-
-        label_sex = ct.CTkLabel(decision, text="Płeć:")
 
         cbox_sex = ct.CTkComboBox(decision,
                                   values=sex,
@@ -638,7 +640,7 @@ class PopUps(DataBase):
         # Dodać powyżej dane imie, naziwsko które zostały podane wcześniej albo podsumować na końcu
 
         label_info.pack(side="top", pady=15)
-        label_sex.pack(side="top")
+        label_info_2.pack(side="top", pady=10)
         cbox_sex.pack(side="top")
         button_wybierz.pack(side="top", pady=25)
 
@@ -669,7 +671,11 @@ class PopUps(DataBase):
         decision.resizable(width=False, height=False)
         decision.config(bg="white")
 
-        label_info = ct.CTkLabel(decision, text="Typ Karnetu", text_font=("Bold", 16))
+        label_info = ct.CTkLabel(decision, text="Wybierz typ karnetu", text_font=("Bold", 16))
+
+        label_info_2 = ct.CTkLabel(decision, text=f"Imię: {imie}"
+                                                  f"\nNazwisko: {nazwisko}"
+                                                  f"\nPłeć: {plec}")
 
         karnety_men = {"1 Wejście": [1, "30zł"],
                        "4 Wejścia": [4, "100zł"],
@@ -686,8 +692,6 @@ class PopUps(DataBase):
                          "Dzieci 4-7 lat": [999, "120zł"],
                          "Dzieci 8-15 lat": [999, "130zł"],
                          "Open": [999, "200zł"]}
-
-        label_karnety = ct.CTkLabel(decision, text="Typy karnetów..... etap nr 3:")
 
         if plec == "Mężczyzna":
             karnet = karnety_men
@@ -735,7 +739,7 @@ class PopUps(DataBase):
         # Dodać powyżej dane imie, naziwsko które zostały podane wcześniej albo podsumować na końcu
 
         label_info.pack(side="top", pady=15)
-        label_karnety.pack(side="top")
+        label_info_2.pack(side="top", pady=10)
         cbox_karnet.pack(side="top")
         button_wybierz.pack(side="top", pady=25)
 
