@@ -193,7 +193,7 @@ class DataBase:
 
         # Aktywowanie karnetów dla załadowanych osoób
         for i in range(len(osoby) + 1):
-            self.ticket_sell(i, True, f"{month_converter(czas('month'))}", "Open", 999, "M/K")
+            self.ticket_sell(i, "Open", 999, "M/K")
 
     def dev_tool_statistics_01(self):
         db, cursor_object = self.data_base_connector()
@@ -732,3 +732,12 @@ class DataBase:
         plt.show()
 
         return True
+
+    def osoby_delete(self, id_osoby):
+        db, cursor_object = self.data_base_connector()
+        zapytanie = f"UPDATE klub_zt.osoby_trenujace SET imie = '', nazwisko = '', pas = '', belki = 0 " \
+                    f"WHERE (id = '{id_osoby}');"
+
+        cursor_object.execute(zapytanie)
+        db.commit()
+        db.close()

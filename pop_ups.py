@@ -539,8 +539,6 @@ class PopUps(DataBase):
         decision.mainloop()
 
     def sell_karnety_operacja(self, frame, imie, nazwisko):
-        imie = imie
-        nazwisko = nazwisko
 
         if self.id_finder(imie, nazwisko):
             frame.withdraw()
@@ -752,12 +750,12 @@ class PopUps(DataBase):
 
         label_imie = ct.CTkLabel(decision, text="Imię")
 
-        entry_box_imie_sell = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+        entry_box_imie_remove = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                           corner_radius=2, border_color="#26B9EF", border_width=2)
 
         label_nazwisko = ct.CTkLabel(decision, text="Nazwisko")
 
-        entry_box_nazwisko_sell = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
+        entry_box_nazwisko_remove = ct.CTkEntry(decision, width=140, height=30, fg_color="#F9F9F9",
                                               corner_radius=2, border_color="#26B9EF", border_width=2)
 
         # Zmienić kolory (np. na czerwony)
@@ -768,7 +766,9 @@ class PopUps(DataBase):
                                       border_width=self.btn_submit_bor_width,
                                       border_color=self.btn_submit_bor_color,
                                       hover_color=self.btn_submit_hov_color,
-                                      command=lambda: self.remove_operation()
+                                      command=lambda: self.remove_operation(decision, entry_box_imie_remove.get(),
+                                                                            entry_box_nazwisko_remove.get()
+                                                                            )
                                       )
 
         self.label_remove_result = ct.CTkLabel(decision, text="")
@@ -776,19 +776,28 @@ class PopUps(DataBase):
         label_info.pack(side="top", pady=15)
         label_info_2.pack(side="top", pady=10)
         label_imie.pack(side="top")
-        entry_box_imie_sell.pack(side="top")
+        entry_box_imie_remove.pack(side="top")
         label_nazwisko.pack(side="top")
-        entry_box_nazwisko_sell.pack(side="top")
+        entry_box_nazwisko_remove.pack(side="top")
         button_wybierz.pack(side="top", pady=25)
         self.label_remove_result.pack(side="top")
 
         decision.tkraise()
         decision.mainloop()
 
-    def remove_operation(self):
-        pass
-        # Tutaj Sprawdzamy czy taka osoba jest w bazie + zwracamy informacje czy udało się
-        # usunąc dane tej osoby (zwolnić id) czy też takiej osoby już tam nie ma
+    def remove_operation(self, frame, imie, nazwisko):
+
+        user_id = self.id_finder(imie, nazwisko)
+        if user_id:
+            self.osoby_delete(user_id)
+            frame.withdraw()
+            # Powiadomienie że id zostało zwolnione
+            return True
+        else:
+            self.label_remove_result.configure(text="Brak takiej osoby", text_color="red")
+            return False
+
+
 
 
         # frame.withdraw()  # Zamknicie okna sprzedaży
