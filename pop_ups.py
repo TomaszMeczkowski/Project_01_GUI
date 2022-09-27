@@ -737,6 +737,8 @@ class PopUps(DataBase):
         window.geometry(size)
         window.resizable(width=resizable, height=resizable)
         window.config(bg=bg)
+        main_logo = tk.PhotoImage(file="./icons/logo.png")
+        window.wm_iconphoto(False, main_logo)
 
         return window
 
